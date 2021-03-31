@@ -59,10 +59,11 @@
         android:id="@+id/mainFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="49dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/waveView">
+        app:layout_constraintTop_toBottomOf="@id/topView">
 
     </FrameLayout>
 
