@@ -28,4 +28,9 @@
     <string name="forgot_password">FORGOT PASSWORD?</string>
     <string name="or">OR</string>
     <string name="register_now">New User? Register Now</string>
+    <string name="location">Location</string>
+    <string name="title">Title</string>
+    <string name="price">Price</string>
+    <string name="add">Add</string>
+    <string name="invalid_form">All fields are required.</string>
 </resources>

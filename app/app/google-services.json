@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "236185469235",
+    "firebase_url": "https://vente-immo-9bc85-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "vente-immo-9bc85",
+    "storage_bucket": "vente-immo-9bc85.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236185469235:android:5a985374ec42fb5c467e46",
+        "android_client_info": {
+          "package_name": "com.example.rentalproperty"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "236185469235-q7ti9s3qqbo1rh53u3ko9l7o869a0l43.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhULHjmxAafj6ZGmOW5MmMnhf-VV1OvRE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "236185469235-q7ti9s3qqbo1rh53u3ko9l7o869a0l43.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

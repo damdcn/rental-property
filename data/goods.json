@@ -1,0 +1,22 @@
+{
+    "Goods" : {
+        "-MZY99vldkhLO5KDkZD2" : {
+          "id" : 0,
+          "location" : "Paris",
+          "name" : "Maison",
+          "price" : 50
+        },
+        "-MZY9QD9wBk-PoU12V9I" : {
+          "id" : 1,
+          "location" : "Montpellier",
+          "name" : "Appartement",
+          "price" : 60
+        },
+        "-MZY9WbimSe_SeKKht9T" : {
+          "id" : 2,
+          "location" : "Lyon",
+          "name" : "Studio",
+          "price" : 45
+        }
+    }
+}
