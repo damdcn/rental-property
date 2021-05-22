@@ -24,7 +24,7 @@
     <string name="welcome">"Welcome!"</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
+    <string name="login_failed">"Failed to login! Please check your credentials"</string>
     <string name="forgot_password">FORGOT PASSWORD?</string>
     <string name="or">OR</string>
     <string name="register_now">New User? Register Now</string>
@@ -33,4 +33,18 @@
     <string name="price">Price</string>
     <string name="add">Add</string>
     <string name="invalid_form">All fields are required.</string>
+    <string name="account_logo">Account Logo</string>
+    <string name="register_message">Register Now !</string>
+    <string name="action_register">Register</string>
+    <string name="prompt_lname">Last Name</string>
+    <string name="prompt_fname">First Name</string>
+    <string name="email_required">Email is required!</string>
+    <string name="fname_required">Firstname is required!</string>
+    <string name="lname_required">Lastname is required!</string>
+    <string name="password_required">Password is required!</string>
+    <string name="incorrect_email">Please provide a valid email!</string>
+    <string name="i_am_a_landlord">I am a landlord</string>
+    <string name="register_success">User has been registered successfuly!</string>
+    <string name="register_failed">Failed to register! Try again!</string>
+    <string name="login_success">Login success</string>
 </resources>

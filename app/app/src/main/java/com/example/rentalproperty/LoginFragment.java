@@ -1,12 +1,22 @@
 package com.example.rentalproperty;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.rentalproperty.models.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,33 +25,20 @@ import android.view.ViewGroup;
  */
 public class LoginFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    TextView registerBtn;
+    Button loginBtn;
+    EditText etEmail, etPassword;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private FirebaseAuth mAuth;
 
     public LoginFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LoginFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static LoginFragment newInstance(String param1, String param2) {
         LoginFragment fragment = new LoginFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -49,16 +46,63 @@ public class LoginFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
+        mAuth = FirebaseAuth.getInstance();
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_login, container, false);
+
+        registerBtn = (TextView) view.findViewById(R.id.gotoRegister);
+        loginBtn = (Button) view.findViewById(R.id.buttonLoginSubmit);
+        etEmail = (EditText) view.findViewById(R.id.inputLoginEmail);
+        etPassword = (EditText) view.findViewById(R.id.inputLoginPassword);
+
+        registerBtn.setOnClickListener(v ->
+            startActivity(new Intent(getActivity(), Register.class))
+        );
+
+        loginBtn.setOnClickListener(v->
+            loginUser()
+        );
+
+        return view;
     }
+
+    private void loginUser() {
+        String email = etEmail.getText().toString().trim();
+        String password = etPassword.getText().toString().trim();
+
+        if(email.isEmpty()){
+            etEmail.setError(getText(R.string.email_required));
+            etEmail.requestFocus();
+            return;
+        }
+
+        if(password.isEmpty()){
+            etPassword.setError(getText(R.string.password_required));
+            etPassword.requestFocus();
+            return;
+        }
+
+        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            etEmail.setError(getText(R.string.incorrect_email));
+            etEmail.requestFocus();
+            return;
+        }
+
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                Toast.makeText(getActivity(), R.string.login_success, Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getActivity(), R.string.login_failed, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+
 }
