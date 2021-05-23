@@ -1,5 +1,6 @@
 package com.example.rentalproperty;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,6 +12,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.rentalproperty.models.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -74,23 +78,31 @@ public class Register extends AppCompatActivity {
         }
 
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(task -> {
-                    if(task.isSuccessful()){
-                        User user = new User(email, fname, lname, isLandlord);
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            User user = new User(email, fname, lname, isLandlord);
 
-                        FirebaseDatabase.getInstance().getReference("Users")
-                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                .setValue(user)
-                                .addOnCompleteListener(task2 -> {
-                                    if(task2.isSuccessful()){
-                                        Toast.makeText(this, R.string.register_success, Toast.LENGTH_LONG).show();
-                                        startActivity(new Intent(this, MainActivity.class));
-                                    } else {
-                                        Toast.makeText(this, R.string.register_failed, Toast.LENGTH_LONG).show();
-                                    }
-                        });
-                    } else {
-                        Toast.makeText(this, R.string.register_failed, Toast.LENGTH_LONG).show();
+                            FirebaseDatabase.getInstance().getReference("Users")
+                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    .setValue(user)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                if (task.isSuccessful()) {
+                                                    Toast.makeText(Register.this, R.string.register_success, Toast.LENGTH_LONG).show();
+                                                    startActivity(new Intent(Register.this, MainActivity.class));
+                                                } else {
+                                                    Toast.makeText(Register.this, R.string.register_failed, Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                        }
+                                    });
+                        } else {
+                            Toast.makeText(Register.this, R.string.register_failed, Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
     }
