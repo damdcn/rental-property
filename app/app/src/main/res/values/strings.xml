@@ -47,4 +47,5 @@
     <string name="register_success">User has been registered successfuly!</string>
     <string name="register_failed">Failed to register! Try again!</string>
     <string name="login_success">Login success</string>
+    <string name="recent_publications">Recent publications</string>
 </resources>

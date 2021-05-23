@@ -19,6 +19,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Date;
+
 public class UploadFragment extends Fragment {
 
     private EditText etTitle, etLocation, etPrice;
@@ -53,24 +55,10 @@ public class UploadFragment extends Fragment {
                 Toast.makeText(getActivity(), R.string.invalid_form, Toast.LENGTH_SHORT).show();
             }
             else {
-                final int[] size = new int[1];
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Goods");
-                // to access to items length
-                reference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        // get length
-                        size[0] = (int) dataSnapshot.getChildrenCount();
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
 
                 // push to database
-                reference.push().setValue(new Good(size[0], txt_location, txt_title, price));
+                reference.push().setValue(new Good(txt_title, price, txt_location, new Date()));
             }
         });
 

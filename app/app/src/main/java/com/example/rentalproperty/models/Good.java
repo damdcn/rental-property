@@ -1,28 +1,27 @@
 package com.example.rentalproperty.models;
 
+import java.util.Date;
+
 public class Good {
-    private int id;
+    private String title;
     private String location;
-    private String name;
+    private Date date;
     private double price;
+    private int image;
 
     public Good() {
     }
 
-    public Good(int id, String location, String name, double price) {
-        this.id = id;
+    public Good(String title, double price, String location, Date date) {
+        this.title = title;
         this.location = location;
-        this.name = name;
+        this.date = date;
         this.price = price;
     }
 
-    public int getId() {
-        return id;
-    }
+    public String getTitle() { return title; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public void setTitle(String title) { this.title = title; }
 
     public String getLocation() {
         return location;
@@ -32,13 +31,9 @@ public class Good {
         this.location = location;
     }
 
-    public String getName() {
-        return name;
-    }
+    public Date getDate() { return date; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setDate(Date date) { this.date = date; }
 
     public double getPrice() {
         return price;
