@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -71,6 +72,12 @@ public class Register extends AppCompatActivity {
             return;
         }
 
+        if(password.length() < 6){
+            etPassword.setError(getText(R.string.password_too_short));
+            etPassword.requestFocus();
+            return;
+        }
+
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             etEmail.setError(getText(R.string.incorrect_email));
             etEmail.requestFocus();
@@ -78,7 +85,7 @@ public class Register extends AppCompatActivity {
         }
 
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(Register.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
@@ -87,7 +94,7 @@ public class Register extends AppCompatActivity {
                             FirebaseDatabase.getInstance().getReference("Users")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                     .setValue(user)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    .addOnCompleteListener(Register.this, new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
@@ -101,6 +108,7 @@ public class Register extends AppCompatActivity {
                                         }
                                     });
                         } else {
+                            Log.w("TAG", "createUserWithEmail:failure", task.getException());
                             Toast.makeText(Register.this, R.string.register_failed, Toast.LENGTH_LONG).show();
                         }
                     }

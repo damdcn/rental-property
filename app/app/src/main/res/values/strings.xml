@@ -21,7 +21,7 @@
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="action_sign_in_google">Sign in with Google</string>
-    <string name="welcome">"Welcome!"</string>
+    <string name="welcome">"Welcome"</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Failed to login! Please check your credentials"</string>
@@ -46,6 +46,14 @@
     <string name="i_am_a_landlord">I am a landlord</string>
     <string name="register_success">User has been registered successfuly!</string>
     <string name="register_failed">Failed to register! Try again!</string>
-    <string name="login_success">Login success</string>
-    <string name="recent_publications">Recent publications</string>
+    <string name="login_success">Logged in successfuly!</string>
+    <string name="home_title">Recent publications</string>
+    <string name="no_internet">No internet connection</string>
+    <string name="password_too_short">Min password length should be 6 characters!</string>
+    <string name="no_good">No good available..</string>
+    <string name="something_went_wrong">Something went wrong!</string>
+    <string name="full_name">Full Name</string>
+    <string name="tenant">Tenant</string>
+    <string name="landlord">Landlord</string>
+    <string name="no_right_to_upload">You need to be a connected landlord to continue!</string>
 </resources>

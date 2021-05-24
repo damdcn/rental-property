@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,12 +100,14 @@ public class LoginFragment extends Fragment {
             return;
         }
 
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(getActivity(), R.string.login_success, Toast.LENGTH_LONG).show();
+                    getActivity().recreate();
                 } else {
+                    Log.w("TAG", "signInWithEmail:failure", task.getException());
                     Toast.makeText(getActivity(), R.string.login_failed, Toast.LENGTH_LONG).show();
                 }
             }

@@ -1,5 +1,8 @@
 package com.example.rentalproperty;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,9 +16,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.rentalproperty.adapters.GoodAdapter;
 import com.example.rentalproperty.models.Good;
+import com.example.rentalproperty.models.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,8 +37,12 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-    private ListView listView;
+    TextView textViewTitle, textViewWelcome;
     private RecyclerView recyclerView;
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
+    private DatabaseReference reference;
+    private String userId;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -39,7 +51,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //FirebaseDatabase.getInstance().getReference().child()
     }
 
     @Override
@@ -47,19 +58,25 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        // listView = view.findViewById(R.id.listViewRecentGoods);
-        // ArrayList<String> list = new ArrayList<String>();
-        // ArrayAdapter adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item, list);
-        // listView.setAdapter(adapter);
-
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        reference = FirebaseDatabase.getInstance().getReference("Users");
+        if(user != null) userId = user.getUid();
+        textViewWelcome = view.findViewById(R.id.welcomeTextView);
+        textViewTitle = view.findViewById(R.id.textViewHome);
         recyclerView = view.findViewById(R.id.recyclerViewRecentGoods);
+
+        /*===============================================================*/
+        /*====================== PRINT CARDS ============================*/
+        /*===============================================================*/
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         ArrayList<Good> goodList = new ArrayList<Good>();
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Goods");
-        reference.addValueEventListener(new ValueEventListener() {
+        DatabaseReference refG = FirebaseDatabase.getInstance().getReference().child("Goods");
+        refG.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
@@ -71,6 +88,7 @@ public class HomeFragment extends Fragment {
                     goodAdapter = new GoodAdapter(goodList.subList(0, 2), getActivity());
                 } else {
                     goodAdapter = new GoodAdapter(goodList, getActivity());
+                    if (goodList.size() == 0) textViewTitle.setText(R.string.no_good);
                 }
                 recyclerView.setAdapter(goodAdapter);
             }
@@ -87,14 +105,43 @@ public class HomeFragment extends Fragment {
                 new Good("Villa Cozy", 40, "Larzac", new Date())
         };*/
 
-        /*GoodAdapter goodAdapter = new GoodAdapter(goodList, getActivity());
-        if (goodList.size() > 3){
-            goodAdapter = new GoodAdapter(goodList.subList(0, 2), getActivity());
-        } else {
-            goodAdapter = new GoodAdapter(goodList, getActivity());
-        }
-        recyclerView.setAdapter(goodAdapter);*/
+        /*===============================================================*/
+        /*==================== CHECK FOR INTERNET =======================*/
+        /*===============================================================*/
 
+        ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            // Connected to internet
+
+        } else {
+            // Not connected to internet
+            Toast.makeText(getActivity(), R.string.no_internet, Toast.LENGTH_LONG).show();
+            textViewTitle.setText(R.string.no_internet);
+        }
+
+        /*===============================================================*/
+        /*====================== CUSTOM WELCOME =========================*/
+        /*===============================================================*/
+
+        if(user != null) {
+            reference.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    User userProfile = snapshot.getValue(User.class);
+
+                    if (userProfile != null) {
+                        textViewWelcome.setText(getText(R.string.welcome) + ", " + userProfile.firstname + " !");
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getActivity(), R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 
 
         // Inflate the layout for this fragment
