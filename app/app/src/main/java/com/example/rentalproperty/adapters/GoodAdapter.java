@@ -1,6 +1,7 @@
 package com.example.rentalproperty.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +14,11 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rentalproperty.MainActivity;
+import com.example.rentalproperty.ProductActivity;
 import com.example.rentalproperty.R;
 import com.example.rentalproperty.models.Good;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,16 +44,21 @@ public class GoodAdapter extends RecyclerView.Adapter<GoodAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final Good goodsList = goods.get(position);
-        holder.textViewTitle.setText(goodsList.getTitle());
-        holder.textViewPrice.setText(Double.toString(goodsList.getPrice()));
-        holder.textViewLocation.setText(goodsList.getLocation());
-        holder.textViewDate.setText(goodsList.getDate().toString());
+        final Good good = goods.get(position);
+        holder.textViewTitle.setText(good.getTitle());
+        holder.textViewPrice.setText(Double.toString(good.getPrice()) + " €");
+        holder.textViewLocation.setText(good.getLocation());
+        holder.textViewDate.setText(new SimpleDateFormat("dd/mm/yyyy").format(good.getDate()));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                Toast.makeText(context, goodsList.getTitle(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, ProductActivity.class);
+                intent.putExtra("TITLE", good.getTitle());
+                intent.putExtra("LOCATION", good.getLocation());
+                intent.putExtra("DATE", new SimpleDateFormat("dd/mm/yyyy").format(good.getDate()));
+                intent.putExtra("PRICE", Double.toString(good.getPrice()) + " €");
+                context.startActivity(intent);
             }
         });
     }
