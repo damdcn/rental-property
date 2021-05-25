@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,6 +16,8 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     TextView textViewTitle, textViewLocation, textViewPrice, textViewDescription, textViewRate;
     ImageView imageViewBack, imageViewCart, imageViewLike;
     Button buttonBookNow;
+    DBService dbService;
+    String productId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,9 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         imageViewLike = findViewById(R.id.product_like);
         buttonBookNow = findViewById(R.id.product_add_button);
 
+        dbService = new DBService();
+
+        productId = getIntent().getStringExtra("ID");
         String title = getIntent().getStringExtra("TITLE");
         String location = getIntent().getStringExtra("LOCATION");
         String date = getIntent().getStringExtra("DATE");
@@ -44,6 +50,14 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         imageViewCart.setOnClickListener(this);
         imageViewBack.setOnClickListener(this);
         buttonBookNow.setOnClickListener(this);
+
+
+        dbService.checkLike(productId, new MyCallback() {
+            @Override
+            public void onCallback(boolean isLiked) {
+                if(isLiked) imageViewLike.setImageResource(R.drawable.ic_baseline_favorite_24);
+            }
+        });
     }
 
     @Override
@@ -53,8 +67,26 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 startActivity(new Intent(this, MainActivity.class));
                 break;
             case R.id.product_like:
-                Toast.makeText(this, "Liked", Toast.LENGTH_SHORT).show();
-                imageViewLike.setImageResource(R.drawable.ic_baseline_favorite_24);
+                if(dbService.isConnected()){
+                    dbService.toggleLike(productId, new MyCallback() {
+                        @Override
+                        public void onCallback(boolean isLiked) {
+                            if(!isLiked){
+                                dbService.like(productId);
+                                imageViewLike.setImageResource(R.drawable.ic_baseline_favorite_24);
+                                Toast.makeText(getApplicationContext(), R.string.like, Toast.LENGTH_SHORT).show();
+                            } else {
+                                dbService.undoLike(productId);
+                                imageViewLike.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+                                Toast.makeText(getApplicationContext(), R.string.undolike, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                } else {
+                    Toast.makeText(this, "Not Connected", Toast.LENGTH_SHORT).show();
+                }
+
+
                 break;
             case R.id.product_add_button:
                 Toast.makeText(this, "Added", Toast.LENGTH_SHORT).show();
