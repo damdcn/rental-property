@@ -1,5 +1,6 @@
 package com.example.rentalproperty;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -14,6 +15,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
 
@@ -21,7 +28,7 @@ import java.net.URI;
 
 public class ProductActivity extends AppCompatActivity implements View.OnClickListener {
 
-    TextView textViewTitle, textViewLocation, textViewPrice, textViewDescription, textViewRate, textViewCategory;
+    TextView textViewTitle, textViewLocation, textViewPrice, textViewDescription, textViewRate, textViewCategory, textViewVisits;
     ImageView imageViewBack, imageViewCart, imageViewLike, imageViewProduct;
     Button buttonBookNow, buttonCall;
     RatingBar ratingBar;
@@ -44,6 +51,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         textViewDescription = findViewById(R.id.product_description);
         textViewRate = findViewById(R.id.product_rating);
         textViewCategory = findViewById(R.id.product_category);
+        textViewVisits = findViewById(R.id.product_visits);
         imageViewProduct = findViewById(R.id.product_image);
         imageViewBack = findViewById(R.id.product_back);
         imageViewCart = findViewById(R.id.product_card);
@@ -67,16 +75,31 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         String authorId = getIntent().getStringExtra("AUTHOR_ID");
 
         dbService = new DBService();
+
+        // Set a trash button if it's the owner's ad
         if(mAuth.getUid().equals(authorId)){
             owner = true;
-            Log.d("TAG", mAuth.getUid()+" == "+authorId+"owner : "+owner);
             imageViewCart.setImageResource(R.drawable.ic_baseline_delete_24);
         }
         else{
-            Log.d("TAG", mAuth.getUid()+" == "+authorId+"owner : "+owner);
             owner = false;
         }
 
+        // Increment the visit counter of this ad
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        database.child("Goods").child(productId).child("visits").setValue(ServerValue.increment(1));
+
+        database.child("Goods").child(productId).child("visits").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                textViewVisits.setText(snapshot.getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         Picasso.get()
                 .load(imageUrl)

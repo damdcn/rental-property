@@ -14,6 +14,7 @@ public class Good {
     private int maxStaying;
     private double price;
     private double rate;
+    private int visits;
     private String imageUrl;
     private String imageId;
     private String authorId;
@@ -31,7 +32,7 @@ public class Good {
         this.price = price;
     }*/
 
-    public Good(String id, String title, String location, String address, String category, String description, String contactNumber, int maxStaying, double price, double rate, String imageUrl, String imageId, String authorId, Date date) {
+    public Good(String id, String title, String location, String address, String category, String description, String contactNumber, int maxStaying, double price, double rate, int visits, String imageUrl, String imageId, String authorId, Date date) {
         this.id = id;
         this.title = title;
         this.location = location;
@@ -42,6 +43,7 @@ public class Good {
         this.maxStaying = maxStaying;
         this.price = price;
         this.rate = rate;
+        this.visits = visits;
         this.imageUrl = imageUrl;
         this.imageId = imageId;
         this.authorId = authorId;
