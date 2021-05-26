@@ -3,49 +3,99 @@ package com.example.rentalproperty;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.squareup.picasso.Picasso;
+
+import java.net.URI;
+
 public class ProductActivity extends AppCompatActivity implements View.OnClickListener {
 
-    TextView textViewTitle, textViewLocation, textViewPrice, textViewDescription, textViewRate;
-    ImageView imageViewBack, imageViewCart, imageViewLike;
-    Button buttonBookNow;
-    DBService dbService;
+    TextView textViewTitle, textViewLocation, textViewPrice, textViewDescription, textViewRate, textViewCategory;
+    ImageView imageViewBack, imageViewCart, imageViewLike, imageViewProduct;
+    Button buttonBookNow, buttonCall;
+    RatingBar ratingBar;
     String productId;
+
+    private boolean owner;
+    private DBService dbService;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
 
+        mAuth = FirebaseAuth.getInstance();
+
         textViewTitle = findViewById(R.id.product_title);
         textViewLocation = findViewById(R.id.product_location);
         textViewPrice = findViewById(R.id.product_price);
         textViewDescription = findViewById(R.id.product_description);
         textViewRate = findViewById(R.id.product_rating);
+        textViewCategory = findViewById(R.id.product_category);
+        imageViewProduct = findViewById(R.id.product_image);
         imageViewBack = findViewById(R.id.product_back);
         imageViewCart = findViewById(R.id.product_card);
         imageViewLike = findViewById(R.id.product_like);
         buttonBookNow = findViewById(R.id.product_add_button);
-
-        dbService = new DBService();
+        buttonCall = findViewById(R.id.product_call_button);
+        ratingBar = findViewById(R.id.product_ratingBar);
 
         productId = getIntent().getStringExtra("ID");
         String title = getIntent().getStringExtra("TITLE");
         String location = getIntent().getStringExtra("LOCATION");
         String date = getIntent().getStringExtra("DATE");
         String price = getIntent().getStringExtra("PRICE");
+        String address = getIntent().getStringExtra("ADDRESS");
+        String category = getIntent().getStringExtra("CATEGORY");
+        String description = getIntent().getStringExtra("DESCRIPTION");
+        int maxStay = getIntent().getIntExtra("MAXSTAY", 0);
+        double rate = getIntent().getDoubleExtra("RATE", 0.0);
+        String phone = getIntent().getStringExtra("PHONE");
+        String imageUrl = getIntent().getStringExtra("IMG_URL");
+        String authorId = getIntent().getStringExtra("AUTHOR_ID");
 
+        dbService = new DBService();
+        if(mAuth.getUid().equals(authorId)){
+            owner = true;
+            Log.d("TAG", mAuth.getUid()+" == "+authorId+"owner : "+owner);
+            imageViewCart.setImageResource(R.drawable.ic_baseline_delete_24);
+        }
+        else{
+            Log.d("TAG", mAuth.getUid()+" == "+authorId+"owner : "+owner);
+            owner = false;
+        }
+
+
+        Picasso.get()
+                .load(imageUrl)
+                .placeholder(R.drawable.ic_baseline_house_24)
+                .into(imageViewProduct);
 
         textViewTitle.setText(title);
         textViewLocation.setText(location);
         textViewPrice.setText(price);
+        textViewDescription.setText(description);
+        textViewCategory.setText(category);
+        textViewRate.setText(Double.toString(rate));
+
+        ratingBar.setRating((float) rate);
+        ratingBar.setIsIndicator(true);
+
+
+
+
         imageViewLike.setOnClickListener(this);
         imageViewCart.setOnClickListener(this);
         imageViewBack.setOnClickListener(this);

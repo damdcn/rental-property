@@ -7,18 +7,45 @@ public class Good {
     private String id;
     private String title;
     private String location;
-    private Date date;
+    private String address;
+    private String category;
+    private String description;
+    private String contactNumber;
+    private int maxStaying;
     private double price;
-    private int image;
+    private double rate;
+    private String imageUrl;
+    private String imageId;
+    private String authorId;
+    private Date date;
+
+
 
     public Good() {
     }
 
-    public Good(String title, double price, String location, Date date) {
+/*    public Good(String title, double price, String location, Date date) {
         this.title = title;
         this.location = location;
         this.date = date;
         this.price = price;
+    }*/
+
+    public Good(String id, String title, String location, String address, String category, String description, String contactNumber, int maxStaying, double price, double rate, String imageUrl, String imageId, String authorId, Date date) {
+        this.id = id;
+        this.title = title;
+        this.location = location;
+        this.address = address;
+        this.category = category;
+        this.description = description;
+        this.contactNumber = contactNumber;
+        this.maxStaying = maxStaying;
+        this.price = price;
+        this.rate = rate;
+        this.imageUrl = imageUrl;
+        this.imageId = imageId;
+        this.authorId = authorId;
+        this.date = date;
     }
 
     public String getId() { return id; }
@@ -48,6 +75,24 @@ public class Good {
     public void setPrice(double price) {
         this.price = price;
     }
+
+    public String getAddress() { return address; }
+
+    public double getRate() { return rate; }
+
+    public String getCategory() { return category; }
+
+    public String getDescription() { return description; }
+
+    public String getContactNumber() { return contactNumber; }
+
+    public int getMaxStaying() { return maxStaying; }
+
+    public String getImageUrl() { return imageUrl; }
+
+    public String getImageId() { return imageId; }
+
+    public String getAuthorId() { return authorId; }
 
     public static Comparator<Good> GoodDateAscendingComparator = new Comparator<Good>() {
         @Override

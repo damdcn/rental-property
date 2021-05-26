@@ -19,6 +19,7 @@ import com.example.rentalproperty.MainActivity;
 import com.example.rentalproperty.ProductActivity;
 import com.example.rentalproperty.R;
 import com.example.rentalproperty.models.Good;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,6 +55,12 @@ public class GoodAdapter extends RecyclerView.Adapter<GoodAdapter.ViewHolder> im
         holder.textViewLocation.setText(good.getLocation());
         holder.textViewDate.setText(new SimpleDateFormat("dd/mm/yyyy").format(good.getDate()));
 
+        Picasso.get()
+                .load(good.getImageUrl())
+                .placeholder(R.drawable.ic_baseline_image_24)
+                .into(holder.imageViewProduct);
+
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
@@ -61,8 +68,16 @@ public class GoodAdapter extends RecyclerView.Adapter<GoodAdapter.ViewHolder> im
                 intent.putExtra("ID", good.getId());
                 intent.putExtra("TITLE", good.getTitle());
                 intent.putExtra("LOCATION", good.getLocation());
+                intent.putExtra("ADDRESS", good.getAddress());
+                intent.putExtra("CATEGORY", good.getCategory());
+                intent.putExtra("DESCRIPTION", good.getDescription());
+                intent.putExtra("MAXSTAY", good.getMaxStaying());
+                intent.putExtra("PHONE", good.getContactNumber());
+                intent.putExtra("IMG_URL", good.getImageUrl());
+                intent.putExtra("AUTHOR_ID", good.getAuthorId());
                 intent.putExtra("DATE", new SimpleDateFormat("dd/mm/yyyy").format(good.getDate()));
                 intent.putExtra("PRICE", Double.toString(good.getPrice()) + " €");
+                intent.putExtra("RATE", good.getRate());
                 context.startActivity(intent);
             }
         });
@@ -110,12 +125,12 @@ public class GoodAdapter extends RecyclerView.Adapter<GoodAdapter.ViewHolder> im
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView goodImage;
+        ImageView imageViewProduct;
         TextView textViewTitle, textViewPrice, textViewLocation, textViewDate;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            goodImage = itemView.findViewById(R.id.imageView);
+            imageViewProduct = itemView.findViewById(R.id.imageView);
             textViewTitle = itemView.findViewById(R.id.goodTextTitle);
             textViewPrice = itemView.findViewById(R.id.goodTextPrice);
             textViewLocation = itemView.findViewById(R.id.goodTextLocation);

@@ -53,14 +53,15 @@
 
             <TextView
                 android:id="@+id/product_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
-                android:layout_marginRight="30dp"
+                android:layout_marginRight="16dp"
                 android:layout_marginTop="16dp"
                 android:text="Title"
                 android:textColor="#333333"
                 android:textSize="24sp"
+                app:layout_constraintEnd_toStartOf="@+id/product_like"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -118,6 +119,19 @@
                 app:layout_constraintTop_toBottomOf="@+id/product_price" />
 
             <TextView
+                android:id="@+id/product_category"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="16dp"
+                android:lineSpacingExtra="2dp"
+                android:text="Category"
+                android:textSize="16sp"
+                android:textAllCaps="true"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/product_location" />
+
+            <TextView
                 android:id="@+id/product_description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -145,7 +159,21 @@
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/product_call_button"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/product_call_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:drawableLeft="@drawable/ic_baseline_call_24"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/product_add_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
