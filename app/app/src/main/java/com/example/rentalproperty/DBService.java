@@ -50,6 +50,11 @@ public class DBService {
     }
 
     public boolean isConnected() {
+        if (mAuth.getCurrentUser() != null)
+            isConnected = true;
+        else
+            isConnected = false;
+
         return isConnected;
     }
 

@@ -51,13 +51,28 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         imageViewBack.setOnClickListener(this);
         buttonBookNow.setOnClickListener(this);
 
+        if(dbService.isConnected()) {
+            dbService.checkLike(productId, new MyCallback() {
+                @Override
+                public void onCallback(boolean isLiked) {
+                    if (isLiked) imageViewLike.setImageResource(R.drawable.ic_baseline_favorite_24);
+                }
+            });
+        }
+    }
 
-        dbService.checkLike(productId, new MyCallback() {
-            @Override
-            public void onCallback(boolean isLiked) {
-                if(isLiked) imageViewLike.setImageResource(R.drawable.ic_baseline_favorite_24);
-            }
-        });
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(dbService.isConnected()) {
+            dbService.checkLike(productId, new MyCallback() {
+                @Override
+                public void onCallback(boolean isLiked) {
+                    if (isLiked) imageViewLike.setImageResource(R.drawable.ic_baseline_favorite_24);
+                }
+            });
+        }
     }
 
     @Override
