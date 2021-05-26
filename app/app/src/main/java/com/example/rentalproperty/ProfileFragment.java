@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ public class ProfileFragment extends Fragment {
 
     TextView textViewTitle, textViewSecondTitle, textViewEmail, textViewFullName;
     ImageView logOut;
+    LinearLayout linearLayoutFavorites;
     private FirebaseAuth mAuth;
     private FirebaseUser user;
     private DatabaseReference reference;
@@ -59,11 +61,18 @@ public class ProfileFragment extends Fragment {
         textViewEmail = view.findViewById(R.id.profile_email);
         textViewFullName = view.findViewById(R.id.profile_fullname);
         logOut = view.findViewById(R.id.profile_logout);
+        linearLayoutFavorites = view.findViewById(R.id.profile_favorites);
 
         logOut.setOnClickListener(v -> {
             mAuth.signOut();
             getActivity().recreate();
         });
+
+        linearLayoutFavorites.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), FavoritesActivity.class));
+        });
+
+
 
         if(user != null) {
             reference.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {

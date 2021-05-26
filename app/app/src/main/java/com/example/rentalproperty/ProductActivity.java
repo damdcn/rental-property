@@ -64,7 +64,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.product_back:
-                startActivity(new Intent(this, MainActivity.class));
+                finish();
                 break;
             case R.id.product_like:
                 if(dbService.isConnected()){

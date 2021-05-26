@@ -59,4 +59,5 @@
     <string name="book_now">Book now</string>
     <string name="undolike">Like Removed</string>
     <string name="like">Liked</string>
+    <string name="favorites">Favorites</string>
 </resources>
