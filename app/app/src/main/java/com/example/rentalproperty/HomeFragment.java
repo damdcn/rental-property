@@ -82,7 +82,6 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         ArrayList<Good> goodList = new ArrayList<Good>();
-        ArrayList<String> goodIds = new ArrayList<String>();
 
         DatabaseReference refG = FirebaseDatabase.getInstance().getReference().child("Goods");
         refG.addValueEventListener(new ValueEventListener() {
@@ -90,14 +89,14 @@ public class HomeFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Good good = snapshot.getValue(Good.class);
+                    good.setId(snapshot.getKey());
                     goodList.add(good);
-                    goodIds.add(snapshot.getKey());
                 }
                 GoodAdapter goodAdapter;
                 if (goodList.size() > 3){
-                    goodAdapter = new GoodAdapter(goodIds, goodList.subList(0, 2), getActivity());
+                    goodAdapter = new GoodAdapter(goodList.subList(0, 2), getActivity());
                 } else {
-                    goodAdapter = new GoodAdapter(goodIds, goodList, getActivity());
+                    goodAdapter = new GoodAdapter(goodList, getActivity());
                     if (goodList.size() == 0) textViewTitle.setText(R.string.no_good);
                 }
                 recyclerView.setAdapter(goodAdapter);

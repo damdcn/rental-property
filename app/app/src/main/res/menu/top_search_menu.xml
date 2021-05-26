@@ -6,7 +6,23 @@
         android:id="@+id/action_search"
         android:icon="@drawable/ic_baseline_search"
         android:title="Search"
-        app:showAsAction="ifRoom|collapseActionView"
+        app:showAsAction="always|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView"/>
+
+    <item android:id="@+id/item_sort_most_recent"
+        android:title="@string/sort_most_recent"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/item_sort_older"
+        android:title="@string/sort_older"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/item_sort_ascending_prices"
+        android:title="@string/sort_ascending_prices"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/item_sort_descending_prices"
+        android:title="@string/sort_descending_prices"
+        app:showAsAction="never"/>
 
 </menu>

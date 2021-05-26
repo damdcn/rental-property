@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class GoodsActivity extends AppCompatActivity {
 
@@ -30,6 +31,7 @@ public class GoodsActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private GoodAdapter goodAdapter;
+    private ArrayList<Good> goodList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +45,7 @@ public class GoodsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-        ArrayList<Good> goodList = new ArrayList<Good>();
-        ArrayList<String> goodIds = new ArrayList<String>();
+        goodList = new ArrayList<Good>();
 
         DatabaseReference refG = database.getReference().child("Goods");
 
@@ -53,10 +54,10 @@ public class GoodsActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Good good = snapshot.getValue(Good.class);
+                    good.setId(snapshot.getKey());
                     goodList.add(good);
-                    goodIds.add(snapshot.getKey());
                 }
-                goodAdapter = new GoodAdapter(goodIds, goodList, GoodsActivity.this);
+                goodAdapter = new GoodAdapter(goodList, GoodsActivity.this);
                 recyclerView.setAdapter(goodAdapter);
             }
 
@@ -92,5 +93,29 @@ public class GoodsActivity extends AppCompatActivity {
             }
         });
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.item_sort_most_recent:
+                Collections.sort(goodList, Good.GoodDateAscendingComparator);
+                goodAdapter.notifyDataSetChanged();
+                break;
+            case R.id.item_sort_older:
+                Collections.sort(goodList, Good.GoodDateDescendingComparator);
+                goodAdapter.notifyDataSetChanged();
+                break;
+            case R.id.item_sort_ascending_prices:
+                Collections.sort(goodList, Good.GoodPriceAscendingComparator);
+                goodAdapter.notifyDataSetChanged();
+                break;
+            case R.id.item_sort_descending_prices:
+                Collections.sort(goodList, Good.GoodPriceDescendingComparator);
+                goodAdapter.notifyDataSetChanged();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

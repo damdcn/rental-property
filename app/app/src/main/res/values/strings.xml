@@ -63,4 +63,10 @@
     <string name="load_more">Load more</string>
     <string name="all">All</string>
     <string name="results">Results</string>
+    <string name="sort_by">Sort by</string>
+    <string name="sort_most_recent">Sort: Most recent</string>
+    <string name="sort_older">Sort: Older</string>
+    <string name="sort_increasing_prices">Sort: Increasing prices</string>
+    <string name="sort_descending_prices">Sort: Descending prices</string>
+    <string name="sort_ascending_prices">Sort: Ascending prices</string>
 </resources>

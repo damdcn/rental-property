@@ -30,13 +30,8 @@ public class GoodAdapter extends RecyclerView.Adapter<GoodAdapter.ViewHolder> im
     List<Good> goodsFull;
     Context context;
 
-    public GoodAdapter(List<String> ids, List<Good> goods, FragmentActivity activity){
+    public GoodAdapter(List<Good> goods, FragmentActivity activity){
         this.goods = goods;
-
-        for (int i = 0; i < goods.size(); i++) {
-            goods.get(i).setId(ids.get(i));
-        }
-
         goodsFull = new ArrayList<>(goods);
         this.context = activity;
     }

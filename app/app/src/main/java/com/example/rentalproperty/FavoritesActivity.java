@@ -38,7 +38,6 @@ public class FavoritesActivity extends AppCompatActivity {
 
 
         ArrayList<Good> goodList = new ArrayList<Good>();
-        ArrayList<String> goodIds = new ArrayList<String>();
         ArrayList<String> favIds = new ArrayList<String>();
 
         DatabaseReference refU = database.getReference().child("Users").child(mAuth.getCurrentUser().getUid()).child("favorites");
@@ -56,12 +55,12 @@ public class FavoritesActivity extends AppCompatActivity {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                             if(favIds.contains(snapshot.getKey())){
                                 Good good = snapshot.getValue(Good.class);
+                                good.setId(snapshot.getKey());
                                 goodList.add(good);
-                                goodIds.add(snapshot.getKey());
                             }
                         }
                         GoodAdapter goodAdapter;
-                        goodAdapter = new GoodAdapter(goodIds, goodList, FavoritesActivity.this);
+                        goodAdapter = new GoodAdapter(goodList, FavoritesActivity.this);
                         recyclerView.setAdapter(goodAdapter);
                     }
 
@@ -84,7 +83,6 @@ public class FavoritesActivity extends AppCompatActivity {
         super.onResume();
 
         ArrayList<Good> goodList = new ArrayList<Good>();
-        ArrayList<String> goodIds = new ArrayList<String>();
         ArrayList<String> favIds = new ArrayList<String>();
 
         DatabaseReference refU = database.getReference().child("Users").child(mAuth.getCurrentUser().getUid()).child("favorites");
@@ -102,12 +100,12 @@ public class FavoritesActivity extends AppCompatActivity {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                             if(favIds.contains(snapshot.getKey())){
                                 Good good = snapshot.getValue(Good.class);
+                                good.setId(snapshot.getKey());
                                 goodList.add(good);
-                                goodIds.add(snapshot.getKey());
                             }
                         }
                         GoodAdapter goodAdapter;
-                        goodAdapter = new GoodAdapter(goodIds, goodList, FavoritesActivity.this);
+                        goodAdapter = new GoodAdapter(goodList, FavoritesActivity.this);
                         recyclerView.setAdapter(goodAdapter);
                     }
 
