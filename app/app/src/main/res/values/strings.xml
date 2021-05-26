@@ -60,4 +60,7 @@
     <string name="undolike">Like Removed</string>
     <string name="like">Liked</string>
     <string name="favorites">Favorites</string>
+    <string name="load_more">Load more</string>
+    <string name="all">All</string>
+    <string name="results">Results</string>
 </resources>

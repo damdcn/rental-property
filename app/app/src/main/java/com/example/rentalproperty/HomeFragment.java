@@ -1,6 +1,7 @@
 package com.example.rentalproperty;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +40,7 @@ import java.util.List;
 public class HomeFragment extends Fragment {
 
     TextView textViewTitle, textViewWelcome;
+    Button buttonLoadMore;
     private RecyclerView recyclerView;
     private FirebaseAuth mAuth;
     private FirebaseUser user;
@@ -64,7 +67,12 @@ public class HomeFragment extends Fragment {
         if(user != null) userId = user.getUid();
         textViewWelcome = view.findViewById(R.id.welcomeTextView);
         textViewTitle = view.findViewById(R.id.textViewHome);
+        buttonLoadMore = view.findViewById(R.id.buttonLoadMore);
         recyclerView = view.findViewById(R.id.recyclerViewRecentGoods);
+
+        buttonLoadMore.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), GoodsActivity.class));
+        });
 
         /*===============================================================*/
         /*====================== PRINT CARDS ============================*/

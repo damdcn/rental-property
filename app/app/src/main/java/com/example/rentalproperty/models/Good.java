@@ -3,6 +3,7 @@ package com.example.rentalproperty.models;
 import java.util.Date;
 
 public class Good {
+    private String id;
     private String title;
     private String location;
     private Date date;
@@ -18,6 +19,10 @@ public class Good {
         this.date = date;
         this.price = price;
     }
+
+    public String getId() { return id; }
+
+    public void setId(String id) { this.id = id; }
 
     public String getTitle() { return title; }
 

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,15 +24,20 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GoodAdapter extends RecyclerView.Adapter<GoodAdapter.ViewHolder> {
+public class GoodAdapter extends RecyclerView.Adapter<GoodAdapter.ViewHolder> implements Filterable {
 
     List<Good> goods;
-    List<String> ids;
+    List<Good> goodsFull;
     Context context;
 
     public GoodAdapter(List<String> ids, List<Good> goods, FragmentActivity activity){
         this.goods = goods;
-        this.ids = ids;
+
+        for (int i = 0; i < goods.size(); i++) {
+            goods.get(i).setId(ids.get(i));
+        }
+
+        goodsFull = new ArrayList<>(goods);
         this.context = activity;
     }
 
@@ -47,7 +54,6 @@ public class GoodAdapter extends RecyclerView.Adapter<GoodAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Good good = goods.get(position);
-        final String id = ids.get(position);
         holder.textViewTitle.setText(good.getTitle());
         holder.textViewPrice.setText(Double.toString(good.getPrice()) + " €");
         holder.textViewLocation.setText(good.getLocation());
@@ -57,7 +63,7 @@ public class GoodAdapter extends RecyclerView.Adapter<GoodAdapter.ViewHolder> {
             @Override
             public void onClick(View v){
                 Intent intent = new Intent(context, ProductActivity.class);
-                intent.putExtra("ID", id);
+                intent.putExtra("ID", good.getId());
                 intent.putExtra("TITLE", good.getTitle());
                 intent.putExtra("LOCATION", good.getLocation());
                 intent.putExtra("DATE", new SimpleDateFormat("dd/mm/yyyy").format(good.getDate()));
@@ -71,6 +77,41 @@ public class GoodAdapter extends RecyclerView.Adapter<GoodAdapter.ViewHolder> {
     public int getItemCount() {
         return goods.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return goodFilter;
+    }
+
+    private Filter goodFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Good> filterdList = new ArrayList<>();
+
+            if(constraint == null || constraint.length() == 0) {
+                filterdList.addAll(goodsFull);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for(Good good : goodsFull) {
+                    if(good.getTitle().toLowerCase().contains(filterPattern) || good.getLocation().toLowerCase().contains(filterPattern)){
+                        filterdList.add(good);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filterdList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            goods.clear();
+            goods.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
