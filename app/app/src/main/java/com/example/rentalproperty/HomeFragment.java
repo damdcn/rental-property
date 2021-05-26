@@ -87,6 +87,7 @@ public class HomeFragment extends Fragment {
         refG.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                goodList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Good good = snapshot.getValue(Good.class);
                     good.setId(snapshot.getKey());
