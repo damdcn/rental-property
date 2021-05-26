@@ -2,6 +2,7 @@ package com.example.rentalproperty;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,7 +24,7 @@ public class Register extends AppCompatActivity {
 
     EditText etEmail, etFname, etLname, etPassword;
     Button registerBtn;
-    CheckBox cbLandlord;
+    SwitchCompat cbLandlord;
     private FirebaseAuth mAuth;
 
 
@@ -39,7 +40,7 @@ public class Register extends AppCompatActivity {
         etFname = findViewById(R.id.inputRegisterFName);
         etLname = findViewById(R.id.inputRegisterLName);
         etPassword = findViewById(R.id.inputRegisterPassword);
-        cbLandlord = findViewById(R.id.inputRegisterLandlord);
+        cbLandlord = findViewById(R.id.inputRegisterSwitch);
 
         registerBtn.setOnClickListener(v -> registerUser());
     }
