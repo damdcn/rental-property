@@ -79,13 +79,16 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
 
         dbService = new DBService();
 
-        // Set a trash button if it's the owner's ad
+        // Set a trash button and view count if it's the owner's ad
         if(mAuth.getUid().equals(authorId)){
             owner = true;
+            textViewVisits.setVisibility(View.VISIBLE);
             imageViewCart.setImageResource(R.drawable.ic_baseline_delete_24);
         }
         else{
             owner = false;
+            textViewVisits.setVisibility(View.GONE);
+            imageViewCart.setVisibility(View.GONE);
         }
 
         // Increment the visit counter of this ad
@@ -191,12 +194,17 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 intent.putExtra("AUTHOR_ID", getIntent().getStringExtra("AUTHOR_ID"));
                 intent.putExtra("PRICE", Double.parseDouble(getIntent().getStringExtra("PRICE").trim().substring(0, getIntent().getStringExtra("PRICE").trim().length() - 2)));
                 intent.putExtra("BOOKINGS", getIntent().getSerializableExtra("BOOKINGS"));
-
-                HashMap<String, HashMap<String, Object>> bookings = (HashMap<String, HashMap<String, Object>>) getIntent().getSerializableExtra("BOOKINGS");
-                Log.d("VALIDATOR", "1 ProductActivity ArrayList content : "+bookings.toString());
-
-
                 startActivity(intent);
+                break;
+
+            case R.id.product_card:
+                if(owner){
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Goods");
+                    ref.child(getIntent().getStringExtra("ID")).removeValue();
+                    finish();
+                } else {
+
+                }
                 break;
         }
     }

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                         if(isConnected){
                             setFragment(new ProfileFragment());
                         } else {
-                            setFragment(new LoginFragment().setArguments());
+                            setFragment(new LoginFragment());
                         }
                         break;
                 }
@@ -94,6 +95,15 @@ public class MainActivity extends AppCompatActivity {
                     if (userProfile != null) {
                         isConnected = true;
                         isLandlord = userProfile.isLandlord;
+
+
+                        SharedPreferences.Editor editor = getSharedPreferences("user_data", MODE_PRIVATE).edit();
+                        editor.putString("uid", user.getUid());
+                        editor.putString("firstname", userProfile.firstname);
+                        editor.putString("lastname", userProfile.lastname);
+                        editor.putString("email", userProfile.email);
+                        editor.putBoolean("isLandlord", userProfile.isLandlord);
+                        editor.commit();
                     }
 
                 }

@@ -67,7 +67,7 @@ public class BookActivity extends AppCompatActivity {
         Picasso.get()
                 .load(imageUrl)
                 .placeholder(R.drawable.ic_baseline_home)
-                .centerCrop()
+                .fit()
                 .into(imageViewPlace);
 
 

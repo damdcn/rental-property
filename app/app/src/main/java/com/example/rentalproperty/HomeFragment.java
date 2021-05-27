@@ -2,6 +2,7 @@ package com.example.rentalproperty;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -38,6 +39,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class HomeFragment extends Fragment {
 
@@ -142,22 +145,14 @@ public class HomeFragment extends Fragment {
         /*===============================================================*/
 
         if(user != null) {
-            reference.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    User userProfile = snapshot.getValue(User.class);
+            SharedPreferences prefs = getActivity().getSharedPreferences("user_data", MODE_PRIVATE);
+            String uid = prefs.getString("uid", null);
+            String firstname = prefs.getString("firstname", null);
+            String lastname = prefs.getString("lastname", null);
+            String email = prefs.getString("email", null);
+            boolean isLandlord = prefs.getBoolean("isLandlord", false);
 
-                    if (userProfile != null) {
-                        textViewWelcome.setText(getText(R.string.welcome) + ", " + userProfile.firstname + " !");
-                    }
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(getActivity(), R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
-                }
-            });
+            textViewWelcome.setText(getText(R.string.welcome) + ", " + firstname + " !");
         }
 
 

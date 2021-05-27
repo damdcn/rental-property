@@ -1,6 +1,7 @@
 package com.example.rentalproperty;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 public class ProfileFragment extends Fragment {
@@ -75,25 +78,18 @@ public class ProfileFragment extends Fragment {
 
 
         if(user != null) {
-            reference.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    User userProfile = snapshot.getValue(User.class);
+            SharedPreferences prefs = getActivity().getSharedPreferences("user_data", MODE_PRIVATE);
+            String uid = prefs.getString("uid", null);
+            String firstname = prefs.getString("firstname", null);
+            String lastname = prefs.getString("lastname", null);
+            String email = prefs.getString("email", null);
+            boolean isLandlord = prefs.getBoolean("isLandlord", false);
 
-                    if (userProfile != null) {
-                        textViewTitle.setText(userProfile.firstname + " " + userProfile.lastname);
-                        textViewSecondTitle.setText(userProfile.isLandlord ? getText(R.string.landlord) : getText(R.string.tenant));
-                        textViewEmail.setText(userProfile.email);
-                        textViewFullName.setText(userProfile.firstname + " " + userProfile.lastname);
-                    }
+            textViewTitle.setText(firstname + " " + lastname);
+            textViewSecondTitle.setText(isLandlord ? getText(R.string.landlord) : getText(R.string.tenant));
+            textViewEmail.setText(email);
+            textViewFullName.setText(firstname + " " + lastname);
 
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(getActivity(), R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
-                }
-            });
         }
 
 

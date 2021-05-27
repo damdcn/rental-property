@@ -22,11 +22,9 @@ class DateValidatorBookings implements DateValidator {
 
     DateValidatorBookings(HashMap<String, HashMap<String, Object>> bookings) {
         if(bookings == null) {
-            //this.bookings = new HashMap<String, Booking>();
-            Log.d("VALIDATOR", "3 Validator ArrayList content : null");
+            this.bookings = new HashMap<String, HashMap<String, Object>>();
         } else {
             this.bookings = bookings;
-            Log.d("VALIDATOR", "3 Validator ArrayList content : "+bookings.toString());
         }
     }
 
