@@ -129,6 +129,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         imageViewCart.setOnClickListener(this);
         imageViewBack.setOnClickListener(this);
         buttonBookNow.setOnClickListener(this);
+        buttonCall.setOnClickListener(this);
 
         if(dbService.isConnected()) {
             dbService.checkLike(productId, new MyCallback() {
@@ -206,6 +207,14 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 } else {
 
                 }
+                break;
+            case R.id.product_call_button:
+//                Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel+", getIntent().getStringExtra("PHONE"),null));
+//                startActivity(callIntent);
+//                Intent callIntent = new Intent(Intent.ACTION_CALL);
+//                callIntent.setData(Uri.parse("tel:"+getIntent().getStringExtra("PHONE")));
+//                startActivity(callIntent);
+                Toast.makeText(this, "tel:+"+getIntent().getStringExtra("PHONE"), Toast.LENGTH_SHORT).show();
                 break;
         }
     }
