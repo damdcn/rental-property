@@ -14,6 +14,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.rentalproperty.models.Booking;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,6 +26,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
 
 import java.net.URI;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
 
 public class ProductActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -177,7 +180,23 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
 
                 break;
             case R.id.product_add_button:
-                Toast.makeText(this, "Added", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, BookActivity.class);
+                intent.putExtra("ID", getIntent().getStringExtra("ID"));
+                intent.putExtra("TITLE", getIntent().getStringExtra("TITLE"));
+                intent.putExtra("LOCATION", getIntent().getStringExtra("LOCATION"));
+                intent.putExtra("ADDRESS", getIntent().getStringExtra("ADDRESS"));
+                intent.putExtra("CATEGORY", getIntent().getStringExtra("CATEGORY"));
+                intent.putExtra("MAXSTAY", getIntent().getIntExtra("MAXSTAY", 0));
+                intent.putExtra("IMG_URL", getIntent().getStringExtra("IMG_URL"));
+                intent.putExtra("AUTHOR_ID", getIntent().getStringExtra("AUTHOR_ID"));
+                intent.putExtra("PRICE", Double.parseDouble(getIntent().getStringExtra("PRICE").trim().substring(0, getIntent().getStringExtra("PRICE").trim().length() - 2)));
+                intent.putExtra("BOOKINGS", getIntent().getSerializableExtra("BOOKINGS"));
+
+                HashMap<String, HashMap<String, Object>> bookings = (HashMap<String, HashMap<String, Object>>) getIntent().getSerializableExtra("BOOKINGS");
+                Log.d("VALIDATOR", "1 ProductActivity ArrayList content : "+bookings.toString());
+
+
+                startActivity(intent);
                 break;
         }
     }

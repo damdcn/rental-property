@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rentalproperty.adapters.GoodAdapter;
+import com.example.rentalproperty.models.Booking;
 import com.example.rentalproperty.models.Good;
 import com.example.rentalproperty.models.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,6 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -91,6 +93,11 @@ public class HomeFragment extends Fragment {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Good good = snapshot.getValue(Good.class);
                     good.setId(snapshot.getKey());
+                    for(DataSnapshot snap : snapshot.getChildren()){
+                        if(snap.getKey().equals("bookings")){
+                            good.setBookings((HashMap<String, HashMap<String, Object>>) snap.getValue());
+                        }
+                    }
                     goodList.add(good);
                 }
                 GoodAdapter goodAdapter;

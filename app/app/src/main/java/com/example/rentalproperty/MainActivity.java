@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment;
                 FragmentManager fm;
                 FragmentTransaction ft;
+                Bundle b = new Bundle();
 
                 switch (item.getItemId()) {
                     case R.id.action_home:
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                         if(isConnected){
                             setFragment(new ProfileFragment());
                         } else {
-                            setFragment(new LoginFragment());
+                            setFragment(new LoginFragment().setArguments());
                         }
                         break;
                 }

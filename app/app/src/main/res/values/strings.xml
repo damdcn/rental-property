@@ -93,4 +93,16 @@
     <string name="please_wait">Please wait</string>
     <string name="adding_place">Adding place...</string>
     <string name="added_place">Place added</string>
+    <string name="choose_dates">Choose dates</string>
+    <string name="credit_card">Credit card</string>
+    <string name="next">Next</string>
+    <string name="time_of_stay">"Time of stay : "</string>
+    <string name="arrival">"Arrival : "</string>
+    <string name="departure">"Departure : "</string>
+    <string name="days">days</string>
+    <string name="max_stay_reached">Host does not authorize stays of more than</string>
+    <string name="price_total">Total price</string>
+    <string name="book">book</string>
+    <string name="min_stay_reached">Can not stay for less than one day</string>
+    <string name="credit_card_required">Credit card required!</string>
 </resources>

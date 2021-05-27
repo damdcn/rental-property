@@ -2,6 +2,7 @@ package com.example.rentalproperty.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +19,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.rentalproperty.MainActivity;
 import com.example.rentalproperty.ProductActivity;
 import com.example.rentalproperty.R;
+import com.example.rentalproperty.models.Booking;
 import com.example.rentalproperty.models.Good;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class GoodAdapter extends RecyclerView.Adapter<GoodAdapter.ViewHolder> implements Filterable {
@@ -53,7 +57,7 @@ public class GoodAdapter extends RecyclerView.Adapter<GoodAdapter.ViewHolder> im
         holder.textViewTitle.setText(good.getTitle());
         holder.textViewPrice.setText(Double.toString(good.getPrice()) + " €");
         holder.textViewLocation.setText(good.getLocation());
-        holder.textViewDate.setText(new SimpleDateFormat("dd/mm/yyyy").format(good.getDate()));
+        holder.textViewDate.setText(new SimpleDateFormat("dd/MM/yyyy").format(good.getDate()));
 
         Picasso.get()
                 .load(good.getImageUrl())
@@ -75,9 +79,10 @@ public class GoodAdapter extends RecyclerView.Adapter<GoodAdapter.ViewHolder> im
                 intent.putExtra("PHONE", good.getContactNumber());
                 intent.putExtra("IMG_URL", good.getImageUrl());
                 intent.putExtra("AUTHOR_ID", good.getAuthorId());
-                intent.putExtra("DATE", new SimpleDateFormat("dd/mm/yyyy").format(good.getDate()));
+                intent.putExtra("DATE", new SimpleDateFormat("dd/MM/yyyy").format(good.getDate()));
                 intent.putExtra("PRICE", Double.toString(good.getPrice()) + " €");
                 intent.putExtra("RATE", good.getRate());
+                intent.putExtra("BOOKINGS", good.getBookings());
                 context.startActivity(intent);
             }
         });

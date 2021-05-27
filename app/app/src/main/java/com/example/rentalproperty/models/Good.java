@@ -1,7 +1,9 @@
 package com.example.rentalproperty.models;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 
 public class Good {
     private String id;
@@ -19,6 +21,7 @@ public class Good {
     private String imageId;
     private String authorId;
     private Date date;
+    private HashMap<String, HashMap<String, Object>> bookings;
 
 
 
@@ -95,6 +98,12 @@ public class Good {
     public String getImageId() { return imageId; }
 
     public String getAuthorId() { return authorId; }
+
+    public HashMap<String, HashMap<String, Object>> getBookings() { return bookings; }
+
+    public void setBookings(HashMap<String, HashMap<String, Object>> bookings) {
+        this.bookings = bookings;
+    }
 
     public static Comparator<Good> GoodDateAscendingComparator = new Comparator<Good>() {
         @Override

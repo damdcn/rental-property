@@ -28,6 +28,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.rentalproperty.models.Booking;
 import com.example.rentalproperty.models.Good;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -42,6 +43,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -100,8 +102,6 @@ public class UploadFragment extends Fragment {
 
         relativeLayoutIcon.setOnClickListener(v -> {
             showImagePickDialog();
-
-            Log.d("TAG", "PIC CLIC");
         });
 
         textViewCategory.setOnClickListener(v -> {
