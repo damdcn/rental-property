@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.rentalproperty.adapters.BookingAdapter;
 import com.example.rentalproperty.adapters.GoodAdapter;
 import com.example.rentalproperty.models.Booking;
 import com.example.rentalproperty.models.Good;
@@ -41,12 +42,14 @@ public class BookingsActivity extends AppCompatActivity {
 
 
         ArrayList<Good> goodList = new ArrayList<Good>();
+        ArrayList<Booking> bookingList = new ArrayList<Booking>();
 
         DatabaseReference refG = database.getReference().child("Goods");
         refG.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 goodList.clear();
+                bookingList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Good good = snapshot.getValue(Good.class);
                     good.setId(snapshot.getKey());
@@ -58,16 +61,17 @@ public class BookingsActivity extends AppCompatActivity {
                     if(snapshot.hasChild("bookings")) {
                         for (DataSnapshot snap : snapshot.child("bookings").getChildren()){
                             Booking booking = snap.getValue(Booking.class);
+                            booking.setId(snap.getKey());
                             if (booking.getClientId().equals(mAuth.getUid())) {
                                 goodList.add(good);
+                                bookingList.add(booking);
                             }
                         }
                     }
                 }
-                GoodAdapter goodAdapter;
-                Collections.sort(goodList, Good.GoodDateDescendingComparator);
-                goodAdapter = new GoodAdapter(goodList, BookingsActivity.this);
-                recyclerView.setAdapter(goodAdapter);
+                BookingAdapter bookingAdapter;
+                bookingAdapter = new BookingAdapter(bookingList, goodList, BookingsActivity.this);
+                recyclerView.setAdapter(bookingAdapter);
             }
 
             @Override

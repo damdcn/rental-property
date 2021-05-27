@@ -107,4 +107,11 @@
     <string name="credit_card_required">Credit card required!</string>
     <string name="added_book">Reservation done</string>
     <string name="bookings">Bookings</string>
+    <string name="from">From : </string>
+    <string name="to">"To : </string>
+    <string name="sure_delete_book">Are you sure you want to delete your reservation?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="deleted_ad">The ad has been deleted</string>
+    <string name="deleted_book">Your reservation has been deleted</string>
 </resources>

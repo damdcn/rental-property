@@ -3,6 +3,7 @@ package com.example.rentalproperty.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Comparator;
 import java.util.Date;
 
 public class Booking implements Parcelable {
@@ -13,6 +14,7 @@ public class Booking implements Parcelable {
     private int days;
     private double price;
     private String creditCard;
+    private String id;
 
     public Booking() {}
 
@@ -61,6 +63,15 @@ public class Booking implements Parcelable {
     public String getCreditCard() {
         return creditCard;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
 
     protected Booking(Parcel in) {
     }

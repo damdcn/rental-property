@@ -58,6 +58,11 @@ public class FavoritesActivity extends AppCompatActivity {
                             if(favIds.contains(snapshot.getKey())){
                                 Good good = snapshot.getValue(Good.class);
                                 good.setId(snapshot.getKey());
+                                for(DataSnapshot snap : snapshot.getChildren()){
+                                    if(snap.getKey().equals("bookings")){
+                                        good.setBookings((HashMap<String, HashMap<String, Object>>) snap.getValue());
+                                    }
+                                }
                                 goodList.add(good);
                             }
                         }

@@ -201,6 +201,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 if(owner){
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Goods");
                     ref.child(getIntent().getStringExtra("ID")).removeValue();
+                    Toast.makeText(this, getText(R.string.deleted_ad), Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
 
