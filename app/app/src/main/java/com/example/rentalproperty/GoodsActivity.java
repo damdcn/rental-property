@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 public class GoodsActivity extends AppCompatActivity {
 
@@ -52,11 +53,18 @@ public class GoodsActivity extends AppCompatActivity {
         refG.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                goodList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Good good = snapshot.getValue(Good.class);
                     good.setId(snapshot.getKey());
+                    for(DataSnapshot snap : snapshot.getChildren()){
+                        if(snap.getKey().equals("bookings")){
+                            good.setBookings((HashMap<String, HashMap<String, Object>>) snap.getValue());
+                        }
+                    }
                     goodList.add(good);
                 }
+                Collections.sort(goodList, Good.GoodDateDescendingComparator);
                 goodAdapter = new GoodAdapter(goodList, GoodsActivity.this);
                 recyclerView.setAdapter(goodAdapter);
             }
@@ -99,11 +107,11 @@ public class GoodsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.item_sort_most_recent:
-                Collections.sort(goodList, Good.GoodDateAscendingComparator);
+                Collections.sort(goodList, Good.GoodDateDescendingComparator);
                 goodAdapter.notifyDataSetChanged();
                 break;
             case R.id.item_sort_older:
-                Collections.sort(goodList, Good.GoodDateDescendingComparator);
+                Collections.sort(goodList, Good.GoodDateAscendingComparator);
                 goodAdapter.notifyDataSetChanged();
                 break;
             case R.id.item_sort_ascending_prices:

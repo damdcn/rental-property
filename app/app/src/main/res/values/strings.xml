@@ -105,4 +105,6 @@
     <string name="book">book</string>
     <string name="min_stay_reached">Can not stay for less than one day</string>
     <string name="credit_card_required">Credit card required!</string>
+    <string name="added_book">Reservation done</string>
+    <string name="bookings">Bookings</string>
 </resources>

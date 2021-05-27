@@ -146,7 +146,7 @@ public class BookActivity extends AppCompatActivity {
                                     public void onSuccess(Void aVoid) {
                                         // added to db
                                         progressDialog.dismiss();
-                                        Toast.makeText(getApplicationContext(), getText(R.string.added_place), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), getText(R.string.added_book), Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                                     }
                                 })

@@ -32,7 +32,7 @@ public class ProfileFragment extends Fragment {
 
     TextView textViewTitle, textViewSecondTitle, textViewEmail, textViewFullName;
     ImageView logOut;
-    LinearLayout linearLayoutFavorites;
+    LinearLayout linearLayoutFavorites, linearLayoutBookings;
     private FirebaseAuth mAuth;
     private FirebaseUser user;
     private DatabaseReference reference;
@@ -65,6 +65,7 @@ public class ProfileFragment extends Fragment {
         textViewFullName = view.findViewById(R.id.profile_fullname);
         logOut = view.findViewById(R.id.profile_logout);
         linearLayoutFavorites = view.findViewById(R.id.profile_favorites);
+        linearLayoutBookings = view.findViewById(R.id.profile_bookings);
 
         logOut.setOnClickListener(v -> {
             mAuth.signOut();
@@ -73,6 +74,10 @@ public class ProfileFragment extends Fragment {
 
         linearLayoutFavorites.setOnClickListener(v -> {
             startActivity(new Intent(getActivity(), FavoritesActivity.class));
+        });
+
+        linearLayoutBookings.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), BookingsActivity.class));
         });
 
 

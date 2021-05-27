@@ -13,10 +13,11 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.RentalProperty">
-        <activity android:name=".BookActivity"></activity>
+        <activity android:name=".BookingsActivity"></activity>
+        <activity android:name=".BookActivity" />
         <activity
             android:name=".GoodsActivity"
-            android:theme="@style/Theme.RentalProperty.AB"></activity>
+            android:theme="@style/Theme.RentalProperty.AB" />
         <activity android:name=".FavoritesActivity" />
         <activity android:name=".ProductActivity" />
         <activity android:name=".Register" />

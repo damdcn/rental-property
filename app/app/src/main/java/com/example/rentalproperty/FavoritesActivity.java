@@ -18,6 +18,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 
 public class FavoritesActivity extends AppCompatActivity {
 
@@ -97,14 +99,21 @@ public class FavoritesActivity extends AppCompatActivity {
                 refG.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        goodList.clear();
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                             if(favIds.contains(snapshot.getKey())){
                                 Good good = snapshot.getValue(Good.class);
                                 good.setId(snapshot.getKey());
+                                for(DataSnapshot snap : snapshot.getChildren()){
+                                    if(snap.getKey().equals("bookings")){
+                                        good.setBookings((HashMap<String, HashMap<String, Object>>) snap.getValue());
+                                    }
+                                }
                                 goodList.add(good);
                             }
                         }
                         GoodAdapter goodAdapter;
+                        Collections.sort(goodList, Good.GoodDateDescendingComparator);
                         goodAdapter = new GoodAdapter(goodList, FavoritesActivity.this);
                         recyclerView.setAdapter(goodAdapter);
                     }

@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class Booking implements Parcelable {
 
-    private Date arrival, departure;
+    private Long arrival, departure;
     private String clientId;
     private String hostId;
     private int days;
@@ -16,7 +16,7 @@ public class Booking implements Parcelable {
 
     public Booking() {}
 
-    public Booking(Date arrival, Date departure, String clientId, String hostId, int days, double price, String creditCard) {
+    public Booking(Long arrival, Long departure, String clientId, String hostId, int days, double price, String creditCard) {
         this.arrival = arrival;
         this.departure = departure;
         this.clientId = clientId;
@@ -34,11 +34,11 @@ public class Booking implements Parcelable {
                 "cb : " + creditCard + " \n";
     }
 
-    public Date getArrival() {
+    public Long getArrival() {
         return arrival;
     }
 
-    public Date getDeparture() {
+    public Long getDeparture() {
         return departure;
     }
 

@@ -36,6 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -104,8 +105,9 @@ public class HomeFragment extends Fragment {
                     goodList.add(good);
                 }
                 GoodAdapter goodAdapter;
+                Collections.sort(goodList, Good.GoodDateDescendingComparator);
                 if (goodList.size() > 3){
-                    goodAdapter = new GoodAdapter(goodList.subList(0, 2), getActivity());
+                    goodAdapter = new GoodAdapter(goodList.subList(0, 3), getActivity());
                 } else {
                     goodAdapter = new GoodAdapter(goodList, getActivity());
                     if (goodList.size() == 0) textViewTitle.setText(R.string.no_good);
