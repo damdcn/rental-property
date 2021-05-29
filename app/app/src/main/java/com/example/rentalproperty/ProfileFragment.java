@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -139,44 +144,103 @@ public class ProfileFragment extends Fragment {
             dialog.show();
         });
 
+        // Edit email
         editEmail.setOnClickListener(v -> {
             View layout = getLayoutInflater().inflate(R.layout.dialog_edit_text_email, null);
 
             SharedPreferences prefs = getActivity().getSharedPreferences("user_data", MODE_PRIVATE);
+            String oldEmail = prefs.getString("email", null);
             EditText editTextEmail = layout.findViewById(R.id.edittext_dialog_email);
-            editTextEmail.setText(prefs.getString("email", null));
+            editTextEmail.setText(oldEmail);
 
+            // First dialog for email prompt
             AlertDialog.Builder  builder = new AlertDialog.Builder(getActivity());
             builder.setView(layout);
             builder.setTitle(R.string.edit_email);
             builder.setIcon(R.drawable.ic_baseline_edit_24);
             builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+
+                // email prompt confirmed
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     String newEmail = editTextEmail.getText().toString().trim();
 
-                    reference.child(userId).child("email").setValue(newEmail)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
+                    View layout2 = getLayoutInflater().inflate(R.layout.dialog_edit_text_password, null);
+                    EditText editTextPassword = layout2.findViewById(R.id.edittext_dialog_password);
 
-                                    SharedPreferences.Editor editor = getActivity().getSharedPreferences("user_data", MODE_PRIVATE).edit();
-                                    editor.putString("email", newEmail);
-                                    editor.apply();
+                    // second dialog for password prompt (mandatory to update auth information)
+                    AlertDialog.Builder  builder2 = new AlertDialog.Builder(getActivity());
+                    builder2.setView(layout2);
+                    builder2.setTitle(R.string.confirm_password);
+                    builder2.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
 
-                                    Toast.makeText(getActivity(), R.string.update_success, Toast.LENGTH_SHORT).show();
-                                    updateUi();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
+                        // Password prompt confirmed
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            String password = editTextPassword.getText().toString();
+
+                            // get auth credentials from the user for re-authentication
+                            AuthCredential credential = EmailAuthProvider.getCredential(oldEmail, password);
+                            user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getActivity(), R.string.update_fail, Toast.LENGTH_SHORT).show();
+                                public void onComplete(@NonNull Task<Void> task) {
+
+                                    // password confirmed
+                                    if(task.isSuccessful()) {
+                                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                        user.updateEmail(newEmail).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+
+                                                // successfully updated in FirebaseAuth
+                                                if (task.isSuccessful()) {
+                                                    reference.child(userId).child("email").setValue(newEmail)
+
+                                                            // successfully updated in Firebase Realtime Database
+                                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                @Override
+                                                                public void onSuccess(Void aVoid) {
+
+                                                                    SharedPreferences.Editor editor = getActivity().getSharedPreferences("user_data", MODE_PRIVATE).edit();
+                                                                    editor.putString("email", newEmail);
+                                                                    editor.apply();
+
+                                                                    Toast.makeText(getActivity(), R.string.update_success, Toast.LENGTH_SHORT).show();
+                                                                    updateUi();
+                                                                }
+                                                            })
+                                                            // update failed in Firebase Realtime Database
+                                                            .addOnFailureListener(new OnFailureListener() {
+                                                                @Override
+                                                                public void onFailure(@NonNull Exception e) {
+                                                                    Toast.makeText(getActivity(), R.string.update_fail, Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            });
+                                                }
+                                            }
+                                        });
+                                    // wrong password
+                                    } else {
+                                        Toast.makeText(getActivity(), R.string.wrong_password, Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             });
+                        }
+                    });
+
+                    // password prompt canceled
+                    builder2.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {}
+                    });
+
+                    AlertDialog dialog2 = builder2.create();
+                    dialog2.show();
                 }
             });
 
+            // email prompt canceled
             builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {}

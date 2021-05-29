@@ -44,9 +44,9 @@
     <string name="password_required">Password is required!</string>
     <string name="incorrect_email">Please provide a valid email!</string>
     <string name="i_am_a_landlord">I am a landlord</string>
-    <string name="register_success">User has been registered successfuly!</string>
+    <string name="register_success">User has been registered successfully!</string>
     <string name="register_failed">Failed to register! Try again!</string>
-    <string name="login_success">Logged in successfuly!</string>
+    <string name="login_success">Logged in successfully!</string>
     <string name="home_title">Recent publications</string>
     <string name="no_internet">No internet connection</string>
     <string name="password_too_short">Min password length should be 6 characters!</string>
@@ -69,7 +69,7 @@
     <string name="sort_increasing_prices">Sort: Increasing prices</string>
     <string name="sort_descending_prices">Sort: Descending prices</string>
     <string name="sort_ascending_prices">Sort: Ascending prices</string>
-    <string name="adress">Full adress</string>
+    <string name="adress">Full address</string>
     <string name="category">Category</string>
     <string name="description">Description</string>
     <string name="phone">Phone number</string>
@@ -85,7 +85,7 @@
     <string name="phone_invalid">Invalid phone number</string>
     <string name="phone_required">Phone number required!</string>
     <string name="description_toolong">Description should not be longer than 250 characters!</string>
-    <string name="description_required">Description requiered!</string>
+    <string name="description_required">Description required!</string>
     <string name="category_required">Category required!</string>
     <string name="address_required">Address required!</string>
     <string name="location_required">Location required!</string>
@@ -122,7 +122,9 @@
     <string name="cancel">Cancel</string>
     <string name="firstname">Firstname</string>
     <string name="lastname">Lastname</string>
-    <string name="update_success">Updated successfuly</string>
+    <string name="update_success">Updated successfully</string>
     <string name="update_fail">Update failed, try again</string>
     <string name="edit_email">Edit your email</string>
+    <string name="confirm_password">Confirm your password to continue</string>
+    <string name="wrong_password">Wrong password, try again</string>
 </resources>
