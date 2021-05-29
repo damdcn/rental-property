@@ -114,4 +114,15 @@
     <string name="no">No</string>
     <string name="deleted_ad">The ad has been deleted</string>
     <string name="deleted_book">Your reservation has been deleted</string>
+    <string name="not_yet_implemented">Not yet implemented</string>
+    <string name="sure_delete_ad">Are you sure you want to delete your ad?</string>
+    <string name="logged_to_continue">You have to be logged to continue!</string>
+    <string name="edit_fullname">Edit your fullname</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="firstname">Firstname</string>
+    <string name="lastname">Lastname</string>
+    <string name="update_success">Updated successfuly</string>
+    <string name="update_fail">Update failed, try again</string>
+    <string name="edit_email">Edit your email</string>
 </resources>

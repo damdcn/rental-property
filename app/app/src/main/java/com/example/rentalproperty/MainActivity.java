@@ -6,9 +6,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.ClipData;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
         /*===============================================================*/
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.getMenu().getItem(0).setChecked(true);
+        if (user == null) {
+            bottomNavigationView.getMenu().getItem(1).setVisible(false);
+        }
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -57,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment;
                 FragmentManager fm;
                 FragmentTransaction ft;
-                Bundle b = new Bundle();
 
                 switch (item.getItemId()) {
                     case R.id.action_home:
@@ -68,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
                             setFragment(new UploadFragment());
                         } else {
                             Toast.makeText(MainActivity.this, R.string.no_right_to_upload, Toast.LENGTH_LONG).show();
+                            setCurrentChecked();
                         }
                         break;
                     case R.id.action_account:
@@ -96,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
                         isConnected = true;
                         isLandlord = userProfile.isLandlord;
 
+                        if(!isLandlord) bottomNavigationView.getMenu().getItem(1).setVisible(false);
 
                         SharedPreferences.Editor editor = getSharedPreferences("user_data", MODE_PRIVATE).edit();
                         editor.putString("uid", user.getUid());
@@ -105,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
                         editor.putBoolean("isLandlord", userProfile.isLandlord);
                         editor.commit();
                     }
-
                 }
 
                 @Override
@@ -116,10 +123,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setCurrentChecked();
+    }
+
     public void setFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
             .replace(R.id.mainFragment, fragment)
             .commit();
+    }
+
+    public void setCurrentChecked(){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment currentFragment = fragmentManager.findFragmentById(R.id.mainFragment);
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
+
+        if(currentFragment instanceof HomeFragment) bottomNavigationView.getMenu().getItem(0).setChecked(true);
+        else if(currentFragment instanceof UploadFragment) bottomNavigationView.getMenu().getItem(1).setChecked(true);
+        else if(currentFragment instanceof ProfileFragment) bottomNavigationView.getMenu().getItem(2).setChecked(true);
+        else if(currentFragment instanceof LoginFragment) bottomNavigationView.getMenu().getItem(2).setChecked(true);
     }
 }

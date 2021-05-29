@@ -14,15 +14,22 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.RentalProperty">
-        <activity android:name=".BookingsActivity"></activity>
-        <activity android:name=".BookActivity" />
+        <activity android:name=".BookingsActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".BookActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".GoodsActivity"
-            android:theme="@style/Theme.RentalProperty.AB" />
-        <activity android:name=".FavoritesActivity" />
-        <activity android:name=".ProductActivity" />
-        <activity android:name=".Register" />
-        <activity android:name=".MainActivity">
+            android:theme="@style/Theme.RentalProperty.AB"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".FavoritesActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ProductActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Register"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

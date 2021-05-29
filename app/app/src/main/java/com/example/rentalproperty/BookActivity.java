@@ -22,6 +22,7 @@ import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -39,7 +40,7 @@ public class BookActivity extends AppCompatActivity {
     TextView textViewCalendarButton, textViewCalendarResult;
     EditText editTextCreditCard;
     Button buttonBook;
-    ImageView imageViewPlace;
+    ShapeableImageView imageViewPlace;
     ProgressDialog progressDialog;
 
     @Override
@@ -114,7 +115,7 @@ public class BookActivity extends AppCompatActivity {
                                     + getText(R.string.time_of_stay) + delta + " " + getText(R.string.days)
                                     + "\n\n"
                                     + getText(R.string.price_per_night) + " : " + Double.toString(price) + " €\n"
-                                    + getText(R.string.price_total) + " : " + Double.toString(totalPrice) + " €"
+                                    + getText(R.string.price_total) + " : " + ((int) totalPrice) + " €"
                     );
 
                     buttonBook.setOnClickListener(v -> {
@@ -147,7 +148,7 @@ public class BookActivity extends AppCompatActivity {
                                         // added to db
                                         progressDialog.dismiss();
                                         Toast.makeText(getApplicationContext(), getText(R.string.added_book), Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                        finish();
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
@@ -163,13 +164,13 @@ public class BookActivity extends AppCompatActivity {
                     // invalid range : cannot stay for less than one day
                     textViewCalendarButton.setError(getText(R.string.min_stay_reached));
                     textViewCalendarButton.requestFocus();
-                    Toast.makeText(getApplicationContext(), getText(R.string.min_stay_reached), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getText(R.string.min_stay_reached), Toast.LENGTH_LONG).show();
                     return;
                 } else {
                     // host does not authorize stays of more than maxStay
                     textViewCalendarButton.setError(getText(R.string.max_stay_reached) + " " + maxStay + " " + getText(R.string.days));
                     textViewCalendarButton.requestFocus();
-                    Toast.makeText(getApplicationContext(), getText(R.string.max_stay_reached) + " " + maxStay + " " + getText(R.string.days), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getText(R.string.max_stay_reached) + " " + maxStay + " " + getText(R.string.days), Toast.LENGTH_LONG).show();
                     return;
                 }
 

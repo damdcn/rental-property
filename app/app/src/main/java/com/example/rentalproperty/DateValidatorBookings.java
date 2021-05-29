@@ -64,8 +64,18 @@ class DateValidatorBookings implements DateValidator {
             Date arrival = new Date(arrivalMillis);
             Date departure = new Date(departureMillis);
 
-            // if the date is in range of reservation => disabled
+            // if the date is in strict range of reservation => disabled
             if(current.after(arrival) && current.before(departure)){
+                return false;
+            }
+
+            // if the date is equal to the date of arrival
+            if((current.compareTo(arrival) == 0)){
+                return false;
+            }
+
+            // if the date is equal to the date of departure
+            if((current.compareTo(departure) == 0)){
                 return false;
             }
         }

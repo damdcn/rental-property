@@ -121,11 +121,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        /*Good[] goods = new Good[]{
-                new Good("Maison bord de plage", 120, "Palavas", new Date()),
-                new Good("Appart vue tour effeil", 150, "Paris", new Date()),
-                new Good("Villa Cozy", 40, "Larzac", new Date())
-        };*/
 
         /*===============================================================*/
         /*==================== CHECK FOR INTERNET =======================*/

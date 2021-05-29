@@ -3,6 +3,8 @@ package com.example.rentalproperty;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -80,12 +82,11 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         dbService = new DBService();
 
         // Set a trash button and view count if it's the owner's ad
-        if(mAuth.getUid().equals(authorId)){
+        if(mAuth.getUid() != null && mAuth.getUid().equals(authorId)){
             owner = true;
             textViewVisits.setVisibility(View.VISIBLE);
             imageViewCart.setImageResource(R.drawable.ic_baseline_delete_24);
-        }
-        else{
+        } else{
             owner = false;
             textViewVisits.setVisibility(View.GONE);
             imageViewCart.setVisibility(View.GONE);
@@ -184,37 +185,61 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
 
                 break;
             case R.id.product_add_button:
-                Intent intent = new Intent(this, BookActivity.class);
-                intent.putExtra("ID", getIntent().getStringExtra("ID"));
-                intent.putExtra("TITLE", getIntent().getStringExtra("TITLE"));
-                intent.putExtra("LOCATION", getIntent().getStringExtra("LOCATION"));
-                intent.putExtra("ADDRESS", getIntent().getStringExtra("ADDRESS"));
-                intent.putExtra("CATEGORY", getIntent().getStringExtra("CATEGORY"));
-                intent.putExtra("MAXSTAY", getIntent().getIntExtra("MAXSTAY", 0));
-                intent.putExtra("IMG_URL", getIntent().getStringExtra("IMG_URL"));
-                intent.putExtra("AUTHOR_ID", getIntent().getStringExtra("AUTHOR_ID"));
-                intent.putExtra("PRICE", Double.parseDouble(getIntent().getStringExtra("PRICE").trim().substring(0, getIntent().getStringExtra("PRICE").trim().length() - 2)));
-                intent.putExtra("BOOKINGS", getIntent().getSerializableExtra("BOOKINGS"));
-                startActivity(intent);
+                if(mAuth.getCurrentUser() != null){
+                    Intent intent = new Intent(this, BookActivity.class);
+                    intent.putExtra("ID", getIntent().getStringExtra("ID"));
+                    intent.putExtra("TITLE", getIntent().getStringExtra("TITLE"));
+                    intent.putExtra("LOCATION", getIntent().getStringExtra("LOCATION"));
+                    intent.putExtra("ADDRESS", getIntent().getStringExtra("ADDRESS"));
+                    intent.putExtra("CATEGORY", getIntent().getStringExtra("CATEGORY"));
+                    intent.putExtra("MAXSTAY", getIntent().getIntExtra("MAXSTAY", 0));
+                    intent.putExtra("IMG_URL", getIntent().getStringExtra("IMG_URL"));
+                    intent.putExtra("AUTHOR_ID", getIntent().getStringExtra("AUTHOR_ID"));
+                    intent.putExtra("PRICE", Double.parseDouble(getIntent().getStringExtra("PRICE").trim().substring(0, getIntent().getStringExtra("PRICE").trim().length() - 2)));
+                    intent.putExtra("BOOKINGS", getIntent().getSerializableExtra("BOOKINGS"));
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(this, R.string.logged_to_continue, Toast.LENGTH_LONG).show();
+                }
                 break;
 
             case R.id.product_card:
                 if(owner){
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Goods");
-                    ref.child(getIntent().getStringExtra("ID")).removeValue();
-                    Toast.makeText(this, getText(R.string.deleted_ad), Toast.LENGTH_SHORT).show();
-                    finish();
+
+                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which){
+                                case DialogInterface.BUTTON_POSITIVE:
+                                    //Yes button clicked
+
+                                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Goods");
+                                    ref.child(getIntent().getStringExtra("ID")).removeValue();
+                                    Toast.makeText(getApplication(), getText(R.string.deleted_ad), Toast.LENGTH_SHORT).show();
+                                    finish();
+                                    break;
+
+                                case DialogInterface.BUTTON_NEGATIVE:
+                                    //No button clicked
+                                    break;
+                            }
+                        }
+                    };
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setMessage(R.string.sure_delete_ad).setPositiveButton(R.string.yes, dialogClickListener)
+                            .setNegativeButton(R.string.no, dialogClickListener).show();
                 } else {
 
                 }
                 break;
             case R.id.product_call_button:
-//                Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel+", getIntent().getStringExtra("PHONE"),null));
-//                startActivity(callIntent);
+                Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+ getIntent().getStringExtra("PHONE")));
+                startActivity(callIntent);
 //                Intent callIntent = new Intent(Intent.ACTION_CALL);
 //                callIntent.setData(Uri.parse("tel:"+getIntent().getStringExtra("PHONE")));
 //                startActivity(callIntent);
-                Toast.makeText(this, "tel:+"+getIntent().getStringExtra("PHONE"), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "tel:+"+getIntent().getStringExtra("PHONE"), Toast.LENGTH_SHORT).show();
                 break;
         }
     }

@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.rentalproperty.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
@@ -30,8 +31,8 @@ import com.google.firebase.database.FirebaseDatabase;
  */
 public class LoginFragment extends Fragment {
 
-    TextView registerBtn;
-    Button loginBtn;
+    TextView registerBtn, forgotPWBtn;
+    Button loginBtn, loginGoogleBtn;
     EditText etEmail, etPassword;
 
     private FirebaseAuth mAuth;
@@ -66,6 +67,8 @@ public class LoginFragment extends Fragment {
         loginBtn = (Button) view.findViewById(R.id.buttonLoginSubmit);
         etEmail = (EditText) view.findViewById(R.id.inputLoginEmail);
         etPassword = (EditText) view.findViewById(R.id.inputLoginPassword);
+        forgotPWBtn = (TextView) view.findViewById(R.id.forgotPasswordTextView);
+        loginGoogleBtn = (Button) view.findViewById(R.id.buttonLoginWithGoogleSubmit);
 
         registerBtn.setOnClickListener(v ->
             startActivity(new Intent(getActivity(), Register.class))
@@ -74,6 +77,14 @@ public class LoginFragment extends Fragment {
         loginBtn.setOnClickListener(v->
             loginUser()
         );
+
+        loginGoogleBtn.setOnClickListener(v -> {
+            Toast.makeText(getActivity(), R.string.not_yet_implemented, Toast.LENGTH_SHORT).show();
+        });
+
+        forgotPWBtn.setOnClickListener(v -> {
+            Toast.makeText(getActivity(), R.string.not_yet_implemented, Toast.LENGTH_SHORT).show();
+        });
 
         return view;
     }
