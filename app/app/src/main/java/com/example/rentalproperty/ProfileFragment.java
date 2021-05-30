@@ -79,6 +79,7 @@ public class ProfileFragment extends Fragment {
             getActivity().recreate();
         });
 
+        // Edit fullname
         editFullname.setOnClickListener(v -> {
             View layout = getLayoutInflater().inflate(R.layout.dialog_edit_text_fullname, null);
 
@@ -98,6 +99,7 @@ public class ProfileFragment extends Fragment {
                     String newFirstname = editTextFirstName.getText().toString().trim();
                     String newLastname = editTextFirstName.getText().toString().trim();
 
+                    // edit firstname on realtime database
                     reference.child(userId).child("firstname").setValue(newFirstname)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
@@ -107,6 +109,7 @@ public class ProfileFragment extends Fragment {
                                     editor.putString("firstname", newFirstname);
                                     editor.apply();
 
+                                    // edit lastname on realtime database
                                     reference.child(userId).child("lastname").setValue(newLastname)
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                     @Override
@@ -263,6 +266,7 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    // update date shown on ui with new values
     public void updateUi(){
         if(user != null) {
             SharedPreferences prefs = getActivity().getSharedPreferences("user_data", MODE_PRIVATE);

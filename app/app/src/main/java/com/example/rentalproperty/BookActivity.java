@@ -77,6 +77,7 @@ public class BookActivity extends AppCompatActivity {
         progressDialog.setTitle(R.string.please_wait);
         progressDialog.setCanceledOnTouchOutside(false);
 
+        // add constraint on calendar
         CalendarConstraints.Builder bookingConstraint = new CalendarConstraints.Builder();
         bookingConstraint.setValidator(new DateValidatorBookings(bookings));
 
@@ -105,6 +106,7 @@ public class BookActivity extends AppCompatActivity {
                 long deltaMillis = Math.abs(secondMillis) - firstMillis;
                 int delta = (int) TimeUnit.DAYS.convert(deltaMillis, TimeUnit.MILLISECONDS);
 
+                // check if selected range match host constraint (ex: stay longer than 10days forbidden)
                 if(delta <= maxStay && delta > 0) {
                     // valid range
                     double totalPrice = delta * price;
@@ -130,6 +132,7 @@ public class BookActivity extends AppCompatActivity {
                         progressDialog.setMessage(getText(R.string.adding_place));
                         progressDialog.show();
 
+                        // data to push
                         HashMap<String, Object> hashMap = new HashMap<>();
                         hashMap.put("arrival", firstMillis);
                         hashMap.put("departure", secondMillis);
@@ -139,6 +142,7 @@ public class BookActivity extends AppCompatActivity {
                         hashMap.put("price", totalPrice);
                         hashMap.put("creditCard", creditCard);
 
+                        // push data to db
                         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Goods").child(productId).child("bookings");
                         reference.push()
                                 .setValue(hashMap)

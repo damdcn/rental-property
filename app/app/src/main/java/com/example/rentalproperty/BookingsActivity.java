@@ -44,6 +44,7 @@ public class BookingsActivity extends AppCompatActivity {
         ArrayList<Good> goodList = new ArrayList<Good>();
         ArrayList<Booking> bookingList = new ArrayList<Booking>();
 
+        // retrieve data from db to put into adapter
         DatabaseReference refG = database.getReference().child("Goods");
         refG.addValueEventListener(new ValueEventListener() {
             @Override

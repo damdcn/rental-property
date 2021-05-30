@@ -42,6 +42,7 @@ public class FavoritesActivity extends AppCompatActivity {
         ArrayList<Good> goodList = new ArrayList<Good>();
         ArrayList<String> favIds = new ArrayList<String>();
 
+        // retrieve data from db to put into adapter
         DatabaseReference refU = database.getReference().child("Users").child(mAuth.getCurrentUser().getUid()).child("favorites");
         DatabaseReference refG = database.getReference().child("Goods");
         refU.addValueEventListener(new ValueEventListener() {

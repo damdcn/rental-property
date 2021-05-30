@@ -160,9 +160,13 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+
+            // onClick : Back button
             case R.id.product_back:
                 finish();
                 break;
+
+            // onClick : LIKE
             case R.id.product_like:
                 if(dbService.isConnected()){
                     dbService.toggleLike(productId, new MyCallback() {
@@ -185,6 +189,8 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
 
 
                 break;
+
+            // onClick : Book button
             case R.id.product_add_button:
                 if(mAuth.getCurrentUser() != null){
                     Intent intent = new Intent(this, BookActivity.class);
@@ -204,6 +210,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 }
                 break;
 
+            // onClick : Delete button
             case R.id.product_card:
                 if(owner){
 
@@ -215,9 +222,11 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                                     //Yes button clicked
                                     String idProduct = getIntent().getStringExtra("ID");
 
+                                    // delete good from db
                                     DatabaseReference refG = FirebaseDatabase.getInstance().getReference("Goods");
                                     refG.child(idProduct).removeValue();
 
+                                    // delete this good from all users favorite
                                     DatabaseReference refU = FirebaseDatabase.getInstance().getReference("Users");
                                     refU.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
@@ -257,6 +266,8 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
 
                 }
                 break;
+
+            // onClick : Call button
             case R.id.product_call_button:
                 Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+ getIntent().getStringExtra("PHONE")));
                 startActivity(callIntent);

@@ -48,8 +48,8 @@ public class GoodsActivity extends AppCompatActivity {
 
         goodList = new ArrayList<Good>();
 
+        // retrieve data from db to put into adapter
         DatabaseReference refG = database.getReference().child("Goods");
-
         refG.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -76,6 +76,7 @@ public class GoodsActivity extends AppCompatActivity {
         });
     }
 
+    // menu with searchview
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -103,6 +104,7 @@ public class GoodsActivity extends AppCompatActivity {
         return true;
     }
 
+    // sorting option item
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){

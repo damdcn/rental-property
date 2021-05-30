@@ -43,6 +43,7 @@ class DateValidatorBookings implements DateValidator {
                 }
             };
 
+    // check if a date is valid (true = free, false = taken)
     @Override
     public boolean isValid(long date) {
 
