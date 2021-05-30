@@ -97,7 +97,7 @@ public class ProfileFragment extends Fragment {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     String newFirstname = editTextFirstName.getText().toString().trim();
-                    String newLastname = editTextFirstName.getText().toString().trim();
+                    String newLastname = editTextLastName.getText().toString().trim();
 
                     // edit firstname on realtime database
                     reference.child(userId).child("firstname").setValue(newFirstname)
