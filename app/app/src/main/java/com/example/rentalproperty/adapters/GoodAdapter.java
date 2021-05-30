@@ -60,7 +60,7 @@ public class GoodAdapter extends RecyclerView.Adapter<GoodAdapter.ViewHolder> im
         holder.textViewDate.setText(new SimpleDateFormat("dd/MM/yyyy").format(good.getDate()));
 
         Picasso.get()
-                .load(good.getImageUrl())
+                .load(good.getImageUrl().isEmpty() ? null : good.getImageUrl())
                 .placeholder(R.drawable.ic_baseline_image_24)
                 .into(holder.imageViewProduct);
 

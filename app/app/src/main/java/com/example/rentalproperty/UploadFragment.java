@@ -219,8 +219,8 @@ public class UploadFragment extends Fragment {
             hashMap.put("category", category);
             hashMap.put("description", description);
             hashMap.put("contactNumber", phone);
-            hashMap.put("maxStaying", maxStay);
-            hashMap.put("price", price);
+            hashMap.put("maxStaying", Integer.parseInt(maxStay));
+            hashMap.put("price", Double.parseDouble(price));
             hashMap.put("rate", 0.0);
             hashMap.put("imageUrl", "");
             hashMap.put("authorId", mAuth.getUid());

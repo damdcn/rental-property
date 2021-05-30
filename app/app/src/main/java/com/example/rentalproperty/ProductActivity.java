@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rentalproperty.models.Booking;
+import com.example.rentalproperty.models.Good;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -109,7 +110,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         });
 
         Picasso.get()
-                .load(imageUrl)
+                .load(imageUrl.isEmpty() ? null : imageUrl)
                 .placeholder(R.drawable.ic_baseline_house_24)
                 .into(imageViewProduct);
 
@@ -212,9 +213,32 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                             switch (which){
                                 case DialogInterface.BUTTON_POSITIVE:
                                     //Yes button clicked
+                                    String idProduct = getIntent().getStringExtra("ID");
 
-                                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Goods");
-                                    ref.child(getIntent().getStringExtra("ID")).removeValue();
+                                    DatabaseReference refG = FirebaseDatabase.getInstance().getReference("Goods");
+                                    refG.child(idProduct).removeValue();
+
+                                    DatabaseReference refU = FirebaseDatabase.getInstance().getReference("Users");
+                                    refU.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                                                if(snapshot.hasChild("favorites")){
+                                                    if(snapshot.child("favorites").hasChild(idProduct)){
+                                                        refU.child(snapshot.getKey())
+                                                                .child("favorites")
+                                                                .child(idProduct)
+                                                                .removeValue();
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {}
+                                    });
+
+
                                     Toast.makeText(getApplication(), getText(R.string.deleted_ad), Toast.LENGTH_SHORT).show();
                                     finish();
                                     break;
