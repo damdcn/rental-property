@@ -102,6 +102,7 @@ public class Register extends AppCompatActivity {
                                                 if (task.isSuccessful()) {
                                                     Toast.makeText(Register.this, R.string.register_success, Toast.LENGTH_LONG).show();
                                                     startActivity(new Intent(Register.this, MainActivity.class));
+                                                    finish();
                                                 } else {
                                                     Toast.makeText(Register.this, R.string.register_failed, Toast.LENGTH_LONG).show();
                                                 }
