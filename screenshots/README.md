@@ -6,23 +6,68 @@
 <hr>
 
 ### __Step 1__
-Basic homepage with a bottom navigation bar that allows to switch between different fragments.
+Basic homepage with a bottom navigation bar that allows to switch between different fragments and design of the login fragment.
 
 <p align="center">
     <br>
-    <img src="src/screenshot_1.png" width="250"/>
+    <img src="res/screenshot_1.png" width="200"/>
+    <img src="res/screenshot_2.png" width="200"/>
     <br>
-    <u><font size="1">Figure 1 - Basic homepage</font></u>
 </p>
 
 <hr>
 
 ### __Step 2__
-Design of the fragment of the login page.
+Firebase Realtime Database implementation. Store data and load it into a ListView.
 
 <p align="center">
     <br>
-    <img src="src/screenshot_2.png" width="250"/>
+    <img src="res/screenshot_3.png" width="200"/>
+    <img src="res/screenshot_4.png" width="200"/>
     <br>
-    <u><font size="1">Figure 2 - Login page</font></u>
+</p>
+
+<hr>
+
+### __Step 3__
+Final app
+
+<p align="center">
+    <br>
+    <img src="res/screenshot_5.png" width="170"/>
+    <img src="res/screenshot_6.png" width="170"/>
+    <img src="res/screenshot_7.png" width="170"/>
+    <br>
+    <u><font size="1">Non logged user</font></u>
+</p>
+<p align="center">
+    <br>
+    <img src="res/screenshot_8.png" width="170"/>
+    <img src="res/screenshot_9.png" width="170"/>
+    <img src="res/screenshot_10.png" width="170"/>
+    <br>
+    <u><font size="1">Home / Ad / All ads</font></u>
+</p>
+<br>
+<p align="center">
+    <br>
+    <img src="res/screenshot_11.png" width="170"/>
+    <img src="res/screenshot_12.png" width="170"/>
+    <img src="res/screenshot_13.png" width="170"/>
+    <br>
+    <u><font size="1">Book / Calendar (with constraint) / Book filled</font></u>
+</p>
+<p align="center">
+    <br>
+    <img src="res/screenshot_14.png" width="170"/>
+    <img src="res/screenshot_15.png" width="170"/>
+    <img src="res/screenshot_16.png" width="170"/>
+    <br>
+    <u><font size="1">Profile / Favorites / Bookings</font></u>
+</p>
+<p align="center">
+    <br>
+    <img src="res/screenshot_17.png" width="200"/>
+    <br>
+    <u><font size="1">Upload form</font></u>
 </p>
