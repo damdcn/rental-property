@@ -143,7 +143,10 @@ public class MainActivity extends AppCompatActivity {
                         editor.putBoolean("isLandlord", userProfile.isLandlord);
                         editor.commit();
 
-                        setFragment(new HomeFragment());
+                        setCurrentChecked();
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        Fragment currentFragment = fragmentManager.findFragmentById(R.id.mainFragment);
+                        if(currentFragment instanceof HomeFragment) setFragment(new HomeFragment());
                     }
                 }
 
