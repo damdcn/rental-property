@@ -4,7 +4,7 @@
 
 
 <p align="center">
-    <img src="src/android_logo_full_effect_512.png" alt="Logo" width="50%">
+    <img src="res/android_logo_full_effect_512.png" alt="Logo" width="50%">
     <h3 align="center">UM House application</h3>
     <p align="center">
         Mobile application which aims to offer real property rental services.
