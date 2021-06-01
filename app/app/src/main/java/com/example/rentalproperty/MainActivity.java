@@ -89,44 +89,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*===============================================================*/
-        /*====================== CUSTOM WELCOME =========================*/
-        /*===============================================================*/
-
-        if(user != null) {
-            reference.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    User userProfile = snapshot.getValue(User.class);
-
-                    if (userProfile != null) {
-                        isConnected = true;
-                        isLandlord = userProfile.isLandlord;
-
-                        if(!isLandlord) bottomNavigationView.getMenu().getItem(1).setVisible(false);
-
-                        SharedPreferences.Editor editor = getSharedPreferences("user_data", MODE_PRIVATE).edit();
-                        editor.putString("uid", user.getUid());
-                        editor.putString("firstname", userProfile.firstname);
-                        editor.putString("lastname", userProfile.lastname);
-                        editor.putString("email", userProfile.email);
-                        editor.putBoolean("isLandlord", userProfile.isLandlord);
-                        editor.commit();
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(MainActivity.this, R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
+        updateSharedPref();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         setCurrentChecked();
+        updateSharedPref();
     }
 
     public void setFragment(Fragment fragment) {
@@ -145,5 +115,43 @@ public class MainActivity extends AppCompatActivity {
         else if(currentFragment instanceof UploadFragment) bottomNavigationView.getMenu().getItem(1).setChecked(true);
         else if(currentFragment instanceof ProfileFragment) bottomNavigationView.getMenu().getItem(2).setChecked(true);
         else if(currentFragment instanceof LoginFragment) bottomNavigationView.getMenu().getItem(2).setChecked(true);
+    }
+
+    public void updateSharedPref(){
+        Log.d("UI", "dans updateSharedPref");
+        if(user != null) {
+            Log.d("UI", "dans user updateSharedPref");
+            reference.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    User userProfile = snapshot.getValue(User.class);
+
+                    if (userProfile != null) {
+                        isConnected = true;
+                        isLandlord = userProfile.isLandlord;
+
+                        if(!isLandlord) {
+                            BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
+                            bottomNavigationView.getMenu().getItem(1).setVisible(false);
+                        }
+
+                        SharedPreferences.Editor editor = getSharedPreferences("user_data", MODE_PRIVATE).edit();
+                        editor.putString("uid", user.getUid());
+                        editor.putString("firstname", userProfile.firstname);
+                        editor.putString("lastname", userProfile.lastname);
+                        editor.putString("email", userProfile.email);
+                        editor.putBoolean("isLandlord", userProfile.isLandlord);
+                        editor.commit();
+
+                        setFragment(new HomeFragment());
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(MainActivity.this, R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }

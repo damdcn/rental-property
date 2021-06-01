@@ -141,7 +141,23 @@ public class HomeFragment extends Fragment {
         /*====================== CUSTOM WELCOME =========================*/
         /*===============================================================*/
 
+        updateUi();
+
+
+        // Inflate the layout for this fragment
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUi();
+    }
+
+    public void updateUi(){
+        Log.d("UI", "dans updateUi");
         if(user != null) {
+
             SharedPreferences prefs = getActivity().getSharedPreferences("user_data", MODE_PRIVATE);
             String uid = prefs.getString("uid", null);
             String firstname = prefs.getString("firstname", null);
@@ -149,11 +165,9 @@ public class HomeFragment extends Fragment {
             String email = prefs.getString("email", null);
             boolean isLandlord = prefs.getBoolean("isLandlord", false);
 
+            Log.d("UI", "dans user updateUi : "+prefs.getString("firstname", null));
+
             textViewWelcome.setText(getText(R.string.welcome) + ", " + firstname + " !");
         }
-
-
-        // Inflate the layout for this fragment
-        return view;
     }
 }
